@@ -19,7 +19,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300..800&family=Inter:wght@400..700&family=JetBrains+Mono:wght@400..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=JetBrains+Mono:wght@400..700&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script>
@@ -35,7 +35,7 @@
             mist: 'var(--text-3)'
           },
           fontFamily: {
-            display: ['Outfit', 'ui-sans-serif', 'sans-serif'],
+            display: ['Inter', 'ui-sans-serif', 'sans-serif'],
             body: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace']
           }
@@ -43,7 +43,7 @@
       }
     };
   </script>
-  <link rel="stylesheet" href="css/styles.css?v=14">
+  <link rel="stylesheet" href="css/styles.css?v=16">
 </head>
 <body class="font-body antialiased">
 
@@ -99,11 +99,12 @@
       </nav>
 
       <div class="header-actions">
-      <div class="theme-switch" id="theme-switch" role="radiogroup" aria-label="Colour theme">
+      <a class="nav-join" href="#" data-join target="_blank" rel="noopener noreferrer">Join<span class="sr-only"> the club (opens a form in a new tab)</span></a>
+      <div class="theme-switch" id="theme-switch" role="radiogroup" aria-label="Finish">
         <span class="theme-thumb" aria-hidden="true"></span>
-        <button type="button" role="radio" class="theme-opt" data-theme-opt="focus" aria-checked="true" title="Study Focus"><svg class="icon" aria-hidden="true"><use href="#i-focus"/></svg><span class="sr-only">Study Focus</span></button>
-        <button type="button" role="radio" class="theme-opt" data-theme-opt="black" aria-checked="false" tabindex="-1" title="Midnight Black"><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg><span class="sr-only">Midnight Black</span></button>
-        <button type="button" role="radio" class="theme-opt" data-theme-opt="light" aria-checked="false" tabindex="-1" title="Daylight White"><svg class="icon" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr-only">Daylight White</span></button>
+        <button type="button" role="radio" class="theme-opt" data-theme-opt="focus" aria-checked="true" title="Natural Titanium (Study Mode)"><span class="finish-dot" aria-hidden="true"></span><span class="sr-only">Natural Titanium, Study Mode</span></button>
+        <button type="button" role="radio" class="theme-opt" data-theme-opt="black" aria-checked="false" tabindex="-1" title="Space Black"><span class="finish-dot" aria-hidden="true"></span><span class="sr-only">Space Black</span></button>
+        <button type="button" role="radio" class="theme-opt" data-theme-opt="light" aria-checked="false" tabindex="-1" title="Starlight White"><span class="finish-dot" aria-hidden="true"></span><span class="sr-only">Starlight White</span></button>
       </div>
 
       <button type="button" id="menu-btn" class="menu-btn md:hidden" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
@@ -119,6 +120,7 @@
         <li><a class="nav-link nav-link-block" data-nav="study" href="#/study">Study Hub</a></li>
         <li><a class="nav-link nav-link-block" data-nav="team" href="#/team">Team</a></li>
         <li><a class="nav-link nav-link-block" data-nav="contact" href="#/contact">Contact</a></li>
+        <li><a class="nav-link nav-link-block nav-link-join" href="#" data-join target="_blank" rel="noopener noreferrer">Join the club<span class="sr-only"> (opens a form in a new tab)</span></a></li>
       </ul>
     </nav>
   </header>
@@ -141,7 +143,8 @@
             <p class="hero-body">Concept notes, worked examples and practice worksheets for algebra, geometry, calculus basics, kinematics, statics and dynamics. Every topic has a folder you can open in one tap.</p>
             <div class="mt-8 flex flex-wrap gap-3">
               <a href="#/study" class="interactive-hover-btn interactive-hover-btn--solid">Open the Study Hub</a>
-              <a href="#about" class="interactive-hover-btn" id="about-link">About the club</a>
+              <a href="#" class="interactive-hover-btn interactive-hover-btn--ghost" data-join target="_blank" rel="noopener noreferrer">Join the club<span class="sr-only"> (opens a form in a new tab)</span></a>
+              <a href="#about" class="hero-link" id="about-link">About the club</a>
             </div>
           </div>
 
@@ -296,7 +299,10 @@
             <h2 class="font-display">Want to join, or have a question?</h2>
             <p>Send us a message and a club member will reply.</p>
           </div>
-          <a href="#/contact" class="interactive-hover-btn interactive-hover-btn--solid">Write to the club</a>
+          <div class="cta-actions">
+            <a href="#" class="interactive-hover-btn interactive-hover-btn--solid" data-join target="_blank" rel="noopener noreferrer">Join the club<span class="sr-only"> (opens a form in a new tab)</span></a>
+            <a href="#/contact" class="interactive-hover-btn interactive-hover-btn--ghost">Write to the club</a>
+          </div>
         </div>
       </div>
     </section>
@@ -419,6 +425,7 @@
         <header class="page-head">
           <h1 id="contact-title" class="page-title font-display" tabindex="-1">Contact and socials</h1>
           <p class="page-lead">Follow the club, message a member, or send us a note to join.</p>
+          <a href="#" class="interactive-hover-btn interactive-hover-btn--solid page-cta" data-join target="_blank" rel="noopener noreferrer">Apply to join the club<span class="sr-only"> (opens a form in a new tab)</span></a>
         </header>
 
         <h2 class="block-title font-display">Follow and join</h2>
@@ -534,11 +541,11 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="js/config.js?v=14"></script>
-  <script src="js/study-data.js?v=14"></script>
-  <script src="js/ascii-bg.js?v=14"></script>
-  <script src="js/hero3d.js?v=14"></script>
-  <script src="js/app.js?v=14"></script>
-  <script src="js/showcase.js?v=14"></script>
+  <script src="js/config.js?v=16"></script>
+  <script src="js/study-data.js?v=16"></script>
+  <script src="js/ascii-bg.js?v=16"></script>
+  <script src="js/hero3d.js?v=16"></script>
+  <script src="js/app.js?v=16"></script>
+  <script src="js/showcase.js?v=16"></script>
 </body>
 </html>

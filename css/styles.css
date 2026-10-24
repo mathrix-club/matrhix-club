@@ -1320,3 +1320,215 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before, html.theme-anim *
 
 /* ---------- Motion preferences ---------- */
 @media (prefers-reduced-motion: reduce) { .mesh i, .hero-marquee, .hero-canvas { animation: none !important; } }
+
+/* =========================================================
+   Flagship layer (Apple-style): quiet UI around the content.
+   One action colour (blue) for every button and link, headlines at 600 with tight tracking,
+   17px body copy, centred cinema hero, pill actions that shrink a little when pressed.
+   Three finishes: Natural Titanium / Study Mode (default), Space Black, Starlight White.
+   ========================================================= */
+:root, [data-theme='focus'] {
+  --bg-rgb: 15 23 34;             /* #0f1722 */
+  --fg-rgb: 243 244 246;
+  --surface-rgb: 22 32 46;        /* #16202e */
+  --surface-0: #121a26;
+  --surface: #16202e;
+  --surface-2: #1d2939;
+  --text: #f3f4f6;
+  --text-2: #cdd5df;
+  --text-3: #9aa8ba;
+  --cta: #0071e3;
+  --cta-hover: #0077ed;
+  --link: #2997ff;
+  --seg-track: rgb(118 118 128 / 0.24);
+  --seg-thumb: #33445c;
+  --metal: linear-gradient(180deg, #ffffff 8%, #c3cad4 46%, #eef1f5 60%, #8c97a6 100%);
+  --nav-bg: rgb(15 23 34 / 0.72);
+  --tile-shadow: 0 2px 4px rgb(2 6 12 / 0.25), 0 20px 44px -24px rgb(2 6 12 / 0.85);
+  --tile-shadow-hover: 0 4px 10px rgb(2 6 12 / 0.3), 0 34px 70px -30px rgb(2 6 12 / 0.95);
+}
+[data-theme='black'] {
+  --bg-rgb: 0 0 0;
+  --fg-rgb: 245 245 247;
+  --surface-rgb: 29 29 31;        /* #1d1d1f */
+  --surface-0: #111112;
+  --surface: #1d1d1f;
+  --surface-2: #2a2a2d;
+  --text: #f5f5f7;
+  --text-2: #d2d2d7;
+  --text-3: #a1a1a6;
+  --cta: #0071e3;
+  --cta-hover: #0077ed;
+  --link: #2997ff;
+  --seg-track: rgb(118 118 128 / 0.24);
+  --seg-thumb: #636366;
+  --metal: linear-gradient(180deg, #ffffff 8%, #a1a1a6 48%, #f5f5f7 62%, #6e6e73 100%);
+  --nav-bg: rgb(0 0 0 / 0.72);
+  --mesh-a: rgb(0 0 0 / 0);
+  --mesh-b: rgb(0 0 0 / 0);
+  --mesh-c: rgb(0 0 0 / 0);
+  --glass-bg: rgb(29 29 31 / 0.72);
+  --tile-shadow: none;
+  --tile-shadow-hover: 0 30px 60px -30px rgb(0 0 0 / 1);
+}
+[data-theme='light'] {
+  --bg-rgb: 245 245 247;          /* #f5f5f7 */
+  --fg-rgb: 29 29 31;             /* #1d1d1f */
+  --surface-rgb: 255 255 255;
+  --surface-0: #fafafc;
+  --surface: #ffffff;
+  --surface-2: #f0f0f3;
+  --text: #1d1d1f;
+  --text-2: #424245;
+  --text-3: #6e6e73;
+  --cta: #0066cc;
+  --cta-hover: #0071e3;
+  --link: #0066cc;
+  --seg-track: rgb(118 118 128 / 0.12);
+  --seg-thumb: #ffffff;
+  --metal: linear-gradient(180deg, #1d1d1f 10%, #6e6e73 50%, #3a3a3c 62%, #1d1d1f 100%);
+  --nav-bg: rgb(245 245 247 / 0.72);
+  --glass-bg: rgb(255 255 255 / 0.78);
+  --mesh-a: rgb(0 113 227 / 0.06);
+  --mesh-b: rgb(94 234 212 / 0.05);
+  --mesh-c: rgb(245 158 11 / 0.04);
+  --tile-shadow: 0 2px 6px rgb(0 0 0 / 0.04), 0 18px 40px -26px rgb(0 0 0 / 0.22);
+  --tile-shadow-hover: 0 6px 16px rgb(0 0 0 / 0.06), 0 34px 64px -30px rgb(0 0 0 / 0.3);
+}
+:root { --header-h: 3rem; --display: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+
+body { font-size: 1.0625rem; line-height: 1.47; letter-spacing: -0.011em; }
+.font-display.font-display { letter-spacing: -0.03em; }
+:focus-visible { outline-color: var(--link); }
+.glass { border-radius: 22px; }
+
+/* ---------- Global nav: 48px frosted bar, centred links ---------- */
+.site-header {
+  background: var(--nav-bg); border-bottom: 1px solid var(--hairline);
+  -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+}
+.site-header::before { display: none; }
+.site-header > div { height: var(--header-h); }
+.brand { gap: 0.55rem; }
+.brand-logo { width: 1.65rem; height: 1.65rem; border-radius: 7px; outline: 0; }
+.brand-word.font-display { font-size: 1rem; font-weight: 600; letter-spacing: 0.02em; }
+.brand::after { display: none; }
+@media (min-width: 768px) { .dock { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); } }
+.dock { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.dock-list { gap: 0.25rem; }
+.dock .nav-link { padding: 0.35rem 0.85rem; border-radius: 999px; font-size: 0.78rem; font-weight: 400; letter-spacing: -0.01em; color: var(--text-2); }
+.dock .nav-link[aria-current='page'] { color: var(--text); font-weight: 500; background: none; }
+@media (hover: hover) and (pointer: fine) { .dock .nav-link:not([aria-current='page']):hover { color: var(--text); background: none; } }
+.dock-indicator { top: auto; bottom: -5px; height: 2px; border-radius: 2px; background: var(--text); box-shadow: none; }
+.header-actions { gap: 0.5rem; }
+.nav-join {
+  display: inline-flex; align-items: center; padding: 0.28rem 0.8rem; border-radius: 999px; background: var(--cta); color: #fff;
+  font-size: 0.75rem; font-weight: 500; letter-spacing: -0.01em; transition: background-color 200ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.nav-join:active { transform: scale(0.95); }
+@media (hover: hover) and (pointer: fine) { .nav-join:hover { background: var(--cta-hover); } }
+@media (max-width: 479px) { .nav-join { display: none; } }
+.nav-link-join { color: var(--link); }
+.menu-btn { width: 2.2rem; height: 2.2rem; border: 0; background: none; }
+
+/* "Finish" switcher: three swatches, a ring marks the chosen one */
+.theme-switch { grid-template-columns: repeat(3, 1.75rem); padding: 2px; border-color: var(--hairline); background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.theme-thumb { top: 2px; bottom: 2px; left: 2px; width: 1.75rem; background: none; border: 1.5px solid var(--link); }
+.theme-opt { height: 1.75rem; }
+.finish-dot { width: 0.95rem; height: 0.95rem; border-radius: 999px; box-shadow: inset 0 0 0 1px rgb(var(--fg-rgb) / 0.25); }
+.theme-opt[data-theme-opt='focus'] .finish-dot { background: linear-gradient(135deg, #b8c2cf, #475569 55%, #1e293b); }
+.theme-opt[data-theme-opt='black'] .finish-dot { background: linear-gradient(135deg, #4a4a4d, #111 60%); }
+.theme-opt[data-theme-opt='light'] .finish-dot { background: linear-gradient(135deg, #ffffff, #e8e6e1 60%, #d6d2ca); }
+
+/* ---------- Pill actions ---------- */
+.interactive-hover-btn { min-height: 2.75rem; font-size: 0.95rem; font-weight: 500; letter-spacing: -0.01em; }
+.interactive-hover-btn:active, .btn:active { transform: scale(0.95); }
+.interactive-hover-btn--solid { background: var(--cta); border-color: var(--cta); color: #fff; }
+.interactive-hover-btn--ghost { background: transparent; border-color: var(--link); color: var(--link); }
+@media (hover: hover) and (pointer: fine) {
+  .interactive-hover-btn--solid:hover { background: var(--cta-hover); border-color: var(--cta-hover); color: #fff; box-shadow: none; }
+  .interactive-hover-btn--ghost:hover { background: var(--link); border-color: var(--link); color: #fff; box-shadow: none; }
+  [data-theme='black'] .interactive-hover-btn--ghost:hover, [data-theme='focus'] .interactive-hover-btn--ghost:hover { color: #000; }
+}
+.btn-primary { background: var(--cta); border-color: var(--cta); color: #fff; }
+@media (hover: hover) and (pointer: fine) { .btn-primary:hover { background: var(--cta-hover); border-color: var(--cta-hover); color: #fff; } }
+.hero-link { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 0.5rem; color: var(--link); font-size: 0.95rem; }
+.hero-link::after { content: '\203A'; margin-left: 0.3rem; transition: transform 300ms var(--ease-spring); }
+@media (hover: hover) and (pointer: fine) { .hero-link:hover { text-decoration: underline; } .hero-link:hover::after { transform: translateX(3px); } }
+
+/* ---------- Cinema hero: centred copy, the lab as the product shot ---------- */
+.hero { min-height: 0; display: block; }
+.hero-watermark, .ascii-bg, .hero::before { display: none !important; }
+.hero-inner { grid-template-columns: minmax(0, 1fr) !important; justify-items: center; gap: 3rem; padding-top: clamp(3rem, 7vw, 5.5rem); padding-bottom: 4rem; text-align: center; }
+.hero-copy { max-width: 52rem; display: flex; flex-direction: column; align-items: center; }
+.hero-badge { justify-content: center; width: min(30rem, 100%); }
+.wordmark { align-items: center; gap: 0.35rem; }
+.wordmark .tier-1 { font-size: clamp(3.4rem, 12vw, 8rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1; background: var(--metal); -webkit-background-clip: text; background-clip: text; color: transparent; }
+@media (min-width: 1024px) { .wordmark .tier-1 { font-size: clamp(5rem, 8.5vw, 8.5rem); } }
+.wordmark .tier-2 { margin-top: 0.2rem; font-size: clamp(1.4rem, 3vw, 2.25rem); font-weight: 600; letter-spacing: -0.025em; }
+.wordmark .tier-2::after { content: ''; display: block; width: 3rem; height: 3px; margin: 0.9rem auto 0; border-radius: 3px; background: linear-gradient(90deg, var(--math), var(--mech)); }
+.wordmark .tier-3 { font-weight: 300; color: var(--text-2); }
+.hero-body { margin-inline: auto; max-width: 38rem; font-size: 1.0625rem; line-height: 1.55; }
+.hero-copy .mt-8 { justify-content: center; align-items: center; }
+.lab-stage { width: min(64rem, 100%); }
+.lab-stage::before { top: 50%; width: min(56rem, 120%); background: radial-gradient(closest-side, color-mix(in srgb, var(--link) 16%, transparent), transparent 72%); }
+.hero-canvas { height: clamp(16rem, 42vw, 30rem); border-radius: 28px; }
+@media (min-width: 1024px) { .hero-canvas { height: 30rem; } }
+.lab { margin-top: 1.25rem; border-radius: 22px; text-align: left; }
+
+/* ---------- Sections ---------- */
+.section-title.font-display { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 600; line-height: 1.07; }
+.section-lead, .about-text, .page-lead { font-size: 1.0625rem; line-height: 1.5; }
+.cta-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.page-cta { margin-top: 1.5rem; }
+.page-title.font-display { font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
+.page-kicker { color: var(--link); }
+.step-n { border-color: var(--link); color: var(--link); }
+.subject-panel.glass, .about-card.glass, .steps li.glass, .cta-band.glass { border-radius: 28px; }
+
+/* ---------- Study Hub: iOS segmented controls ---------- */
+.filterbar { background: var(--nav-bg); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); }
+.tabs, [data-view='study'] .seg { padding: 2px; border: 0; background: var(--seg-track); box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.tabs::before { top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); background: var(--seg-thumb); box-shadow: 0 3px 8px rgb(0 0 0 / 0.12), 0 3px 1px rgb(0 0 0 / 0.04); transition: transform 500ms var(--ease-spring); }
+.tab { padding: 0.45rem 1.6rem; font-size: 0.85rem; font-weight: 500; color: var(--text-2); }
+.tab[aria-selected='true'] { color: var(--text); }
+@media (hover: hover) and (pointer: fine) { .tab[aria-selected='false']:hover { color: var(--text); } }
+.seg-btn { padding: 0.42rem 1rem; font-size: 0.8rem; font-weight: 500; color: var(--text-2); }
+.seg-btn[aria-pressed='true'], .seg-btn[data-subject][aria-pressed='true'] { background: var(--seg-thumb); color: var(--text); box-shadow: 0 3px 8px rgb(0 0 0 / 0.12), 0 3px 1px rgb(0 0 0 / 0.04); }
+@media (hover: hover) and (pointer: fine) { .seg-btn[aria-pressed='false']:hover { color: var(--text); background: none; } }
+[data-view='study'] .search { border: 0; background: var(--seg-track); }
+.progress-fill { background: linear-gradient(90deg, var(--link), var(--math)); box-shadow: none; }
+.progress-label { color: var(--text); }
+
+/* ---------- Study Hub: Apple bento tiles ---------- */
+.bento { gap: 1.25rem; padding-top: 0.25rem; }
+.bento-card::before, .bento-card::after { display: none; }
+.bento-card { border-radius: 28px; transition: transform 500ms var(--ease-spring); }
+.bento-face { border-radius: 28px; border: 1px solid var(--hairline); background: var(--surface); box-shadow: var(--tile-shadow); transition: box-shadow 500ms var(--ease-spring), border-color 300ms var(--ease-out); }
+[data-theme='light'] .bento-face { border-color: transparent; }
+@media (hover: hover) and (pointer: fine) {
+  .bento-card:hover { transform: translateY(-6px); }
+  .bento-card:hover .bento-face { box-shadow: var(--tile-shadow-hover); border-color: var(--hairline-strong); }
+}
+.bento-card:focus-within { transform: translateY(-6px); }
+.bento-tab { top: 1.35rem; left: 1.35rem; z-index: 1; padding: 0.25rem 0.7rem; border: 0; border-radius: 999px; background: rgb(var(--surface-rgb) / 0.8); color: var(--accent); font-size: 10px; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.bento-media { margin: 0.7rem 0.7rem 0; border: 0; border-radius: 21px; height: clamp(10rem, 15vw, 13.5rem);
+  background: radial-gradient(80% 90% at 50% 45%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 72%), var(--surface-0); }
+.bento-launch { background: var(--cta); color: #fff; font-weight: 500; }
+.bento-body { padding: 1.15rem 1.5rem 1.4rem; }
+.bento-title.font-display { font-weight: 600; letter-spacing: -0.03em; }
+.bento-done { border-radius: 999px; }
+
+/* ---------- Study Workbench: frosted glass ---------- */
+.wb-panel { border-radius: 28px; background: rgb(var(--surface-rgb) / 0.72); -webkit-backdrop-filter: saturate(180%) blur(24px); backdrop-filter: saturate(180%) blur(24px); }
+@media (max-width: 639px) { .wb-panel { border-radius: 22px; } }
+.wb-title.font-display { font-weight: 600; letter-spacing: -0.03em; }
+.wb-tabs { padding: 2px; border: 0; background: var(--seg-track); }
+.wb-tabs::before { top: 2px; bottom: 2px; left: 2px; width: calc((100% - 4px) / 3); background: var(--seg-thumb); box-shadow: 0 3px 8px rgb(0 0 0 / 0.12), 0 3px 1px rgb(0 0 0 / 0.04); }
+.wb-tab { color: var(--text-2); font-weight: 500; }
+.wb-tab[aria-selected='true'] { color: var(--text); }
+.wb-play-btn { background: var(--cta); color: #fff; }
+.wb-link { border-color: var(--link); color: var(--link); }
+@media (hover: hover) and (pointer: fine) { .wb-link:hover { background: var(--link); color: #fff; } [data-theme='black'] .wb-link:hover, [data-theme='focus'] .wb-link:hover { color: #000; } }
+.wb-item, .wb-formulas { border-radius: 18px; }
+.wb-stage { border-radius: 22px; }

@@ -8,7 +8,7 @@
  * footer, status bar, page titles and the messages the site writes for WhatsApp.
  */
 var SITE_BRAND_NAME = 'MATHRIX';
-var SITE_TAGLINE = 'The Math & Mechanics club for Grade 10 and Grade 11.';
+var SITE_TAGLINE = 'Pro Learning Experience';
 
 window.MATHRIX_CONFIG = {
   club: {
@@ -30,6 +30,9 @@ window.MATHRIX_CONFIG = {
     endpoint: '',
     recipient: 'mathrix.club@example.com' // REPLACE if you switch method to 'email'
   },
+
+  /* "Join the club" application form (Google Forms). Every Join button opens it. */
+  joinUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfGk-kp5m56VD3BRX3lu_V45_3PZ622IF4Fu-AncMoL8FH44g/viewform',
 
   /* Official club Google Drive folder ("Resources: Presentations & Materials"). Opens from the Study Hub banner and every workbench link without its own `drive` link. */
   driveRoot: 'https://drive.google.com/drive/u/0/mobile/folders/186KTTxTpmV7JM3TuDDq7GVU6Qvn-Vciq',

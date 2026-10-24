@@ -44,9 +44,9 @@
     el.hidden = !t;
   });
 
-  /* ---------- theme: Study Focus (default), Midnight Black, Daylight White ---------- */
+  /* ---------- finish: Natural Titanium / Study Mode (default), Space Black, Starlight White ---------- */
   var THEMES = ['focus', 'black', 'light'];
-  var THEME_COLOR = { focus: '#0f1722', black: '#050505', light: '#f8fafc' };
+  var THEME_COLOR = { focus: '#0f1722', black: '#000000', light: '#f5f5f7' };
   var themeEl = $('#theme-switch');
   var themeOpts = $$('.theme-opt', themeEl);
   var themeTimer = 0;
@@ -81,6 +81,9 @@
       next.focus();
     });
   });
+  // every Join button opens the club's application form
+  $$('[data-join]').forEach(function (a) { a.href = CFG.joinUrl; });
+
   var saved = document.documentElement.getAttribute('data-theme');
   setTheme(THEMES.indexOf(saved) >= 0 ? saved : 'focus', false);
   $$('[data-brand-attr]').forEach(function (el) {
@@ -354,9 +357,13 @@
         '<p>Try a shorter word, or clear the search to see every Grade ' + state.grade + ' topic.</p>' +
         '<button type="button" class="interactive-hover-btn" data-clear>Clear search</button></div>';
     } else {
+      if (cardObserver) cardObserver.disconnect();   // the old cards are about to be replaced
       var sp = spans(list.length);
       bentoEl.innerHTML = list.map(function (t, i) { return card(t, sp[i], i); }).join('');
-      $$('.bento-card', bentoEl).forEach(function (c) { setLive(c, false); });
+      $$('.bento-card', bentoEl).forEach(function (c) {
+        setLive(c, false);
+        if (cardObserver) cardObserver.observe(c);
+      });
     }
     renderProgress();
   }
@@ -444,7 +451,11 @@
 
   /* Hover or focus wakes a card's graphic; the pointer also drives a soft spotlight. */
   var liveCard = null;
-  function wake(c) { if (c === liveCard) return; setLive(liveCard, false); liveCard = c; setLive(c, true); }
+  // diagrams run while their card is on screen; without IntersectionObserver they run on hover or focus
+  var cardObserver = !reduceMotion && 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) { setLive(e.target, e.isIntersecting); });
+  }, { threshold: 0.2 }) : null;
+  function wake(c) { if (cardObserver || c === liveCard) return; setLive(liveCard, false); liveCard = c; setLive(c, true); }
   bentoEl.addEventListener('pointerover', function (e) { if (e.pointerType !== 'touch') wake(e.target.closest('.bento-card')); });
   bentoEl.addEventListener('pointerleave', function () { wake(null); });
   bentoEl.addEventListener('focusin', function (e) { wake(e.target.closest('.bento-card')); });
