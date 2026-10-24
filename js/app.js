@@ -34,19 +34,21 @@
   var TAGLINE = window.SITE_TAGLINE || '';
   // data-brand fills in the name (data-brand="lower" for lowercase); data-brand-attr="attr:text with {brand}" sets an attribute
   $$('[data-brand]').forEach(function (el) { el.textContent = el.getAttribute('data-brand') === 'lower' ? BRAND.toLowerCase() : BRAND; });
-  $$('[data-tagline]').forEach(function (el) { el.textContent = TAGLINE; });
+  // *word* in the tagline is set in the italic serif; plain-text places drop the asterisks
+  function accent(s) { return esc(s).replace(/\*([^*]+)\*/g, '<em class="serif">$1</em>'); }
+  $$('[data-tagline]').forEach(function (el) { el.textContent = TAGLINE.replace(/\*/g, ''); });
   // the hero headline sets the tagline in two weights, split before " for "
   var cut = TAGLINE.indexOf(' for ');
   var TAG = cut > 0 ? [TAGLINE.slice(0, cut), TAGLINE.slice(cut + 1)] : [TAGLINE, ''];
   $$('[data-tagline-part]').forEach(function (el) {
     var t = TAG[el.getAttribute('data-tagline-part') === '1' ? 0 : 1];
-    el.textContent = t;
+    el.innerHTML = accent(t);
     el.hidden = !t;
   });
 
-  /* ---------- finish: Natural Titanium / Study Mode (default), Space Black, Starlight White ---------- */
+  /* ---------- palette: Nordic Study (default), Carbon Pro, Editorial Paper ---------- */
   var THEMES = ['focus', 'black', 'light'];
-  var THEME_COLOR = { focus: '#0f1722', black: '#000000', light: '#f5f5f7' };
+  var THEME_COLOR = { focus: '#11161d', black: '#09090b', light: '#f5f4f0' };
   var themeEl = $('#theme-switch');
   var themeOpts = $$('.theme-opt', themeEl);
   var themeTimer = 0;
@@ -235,7 +237,8 @@
     var all = topicsForGrade(state.grade);
     var n = all.filter(function (t) { return done[topicKey(t)]; }).length;
     var pct = all.length ? Math.round(n / all.length * 100) : 0;
-    $('#progress-count').textContent = n + ' of ' + all.length + ' Grade ' + state.grade + ' topics done';
+    $('#progress-count').textContent = pad(n) + ' / ' + pad(all.length) + ' completed';
+    $('.progress-track').setAttribute('aria-valuetext', n + ' of ' + all.length + ' Grade ' + state.grade + ' topics completed');
     $('#progress-fill').style.transform = 'scaleX(' + pct / 100 + ')';
     $('.progress-track').setAttribute('aria-valuenow', String(pct));
   }
@@ -249,10 +252,11 @@
     arc: 'M14 88Q70 -10 126 88'
   };
   function fxTangent(path) {
-    return '<svg class="fx fx-svg" viewBox="0 0 140 100" aria-hidden="true" focusable="false">' + FX.grid +
+    return '<svg class="fx fx-svg" data-fx="tangent" viewBox="0 0 140 100" aria-hidden="true" focusable="false">' + FX.grid +
       '<path class="fx-path" d="' + path + '"/>' +
-      '<g class="fx-tan"><path d="M-24 0H24"/><circle r="3"/>' +
+      '<g class="fx-tan fx-auto"><path d="M-24 0H24"/><circle r="3"/>' +
         '<animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0.08;0.92;0.08" keyTimes="0;0.5;1" path="' + path + '"/></g>' +
+      '<g class="fx-tan fx-steer"><path d="M-24 0H24"/><circle r="3"/></g>' +
     '</svg>';
   }
   var sineId = 0;
@@ -260,24 +264,25 @@
     // a long wave slides left by one period, so the loop is seamless; the clip keeps it inside the grid
     var id = 'fx-clip-' + (sineId++), d = 'M-30 50', x, k;
     for (k = 0, x = -30; x < 170; k++, x += 20) d += ' Q' + (x + 10) + ' ' + (k % 2 ? 82 : 18) + ' ' + (x + 20) + ' 50';
-    return '<svg class="fx fx-svg" viewBox="0 0 140 100" aria-hidden="true" focusable="false">' + FX.grid +
+    return '<svg class="fx fx-svg" data-fx="sine" viewBox="0 0 140 100" aria-hidden="true" focusable="false">' + FX.grid +
       '<defs><clipPath id="' + id + '"><rect x="10" y="6" width="124" height="84"/></clipPath></defs>' +
-      '<g clip-path="url(#' + id + ')"><path class="fx-path" d="' + d + '">' +
-        '<animateTransform attributeName="transform" type="translate" from="0 0" to="-40 0" dur="2.6s" repeatCount="indefinite"/></path></g>' +
+      '<g clip-path="url(#' + id + ')"><g class="fx-wave"><path class="fx-path" d="' + d + '">' +
+        '<animateTransform attributeName="transform" type="translate" from="0 0" to="-40 0" dur="2.6s" repeatCount="indefinite"/></path></g></g>' +
       '<circle class="fx-sine-dot" cx="70" cy="50" r="3"/>' +
     '</svg>';
   }
   function fxProjectile() {
-    return '<svg class="fx fx-svg" viewBox="0 0 140 100" aria-hidden="true" focusable="false">' +
+    return '<svg class="fx fx-svg" data-fx="proj" viewBox="0 0 140 100" aria-hidden="true" focusable="false">' +
       '<path class="fx-axis" d="M8 88H134"/>' +
       '<path class="fx-path fx-dash" d="' + FX.arc + '"/>' +
       '<g class="fx-vec fx-vec-v"><path d="M14 88L38 64M30 63.5H38.5V72"/></g>' +
       '<g class="fx-vec fx-vec-g"><path d="M70 47V71M65 64.5L70 71.5L75 64.5"/></g>' +
-      '<g class="fx-ball"><circle r="3.6"/><animateMotion dur="2.4s" repeatCount="indefinite" path="' + FX.arc + '"/></g>' +
+      '<g class="fx-ball fx-auto"><circle r="3.6"/><animateMotion dur="2.4s" repeatCount="indefinite" path="' + FX.arc + '"/></g>' +
+      '<g class="fx-ball fx-steer"><circle r="3.6"/><path class="fx-ball-v" d="M0 0H18"/></g>' +
     '</svg>';
   }
   function fxCube() {
-    return '<div class="fx fx-cube" aria-hidden="true"><div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>';
+    return '<div class="fx fx-cube" data-fx="cube" aria-hidden="true"><div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>';
   }
   function fxFor(t) {
     if (t.subject === 'mechanics') return fxProjectile();
@@ -322,17 +327,18 @@
     var shown = t.items.slice(0, span >= 4 ? 3 : 2);
     return '<article class="bento-card' + (span >= 4 ? ' is-wide' : '') + (done[key] ? ' is-done' : '') + '" role="listitem" data-subject="' + t.subject + '" data-key="' + esc(key) + '" style="--span:' + span + '">' +
       '<span class="bento-face" aria-hidden="true"></span>' +
-      '<span class="bento-tab" aria-hidden="true">' + esc(SUBJECT_LABEL[t.subject]) + '</span>' +
+      '<span class="bento-tab" aria-hidden="true"><b>' + pad(i + 1) + '</b> ' + esc(SUBJECT_LABEL[t.subject]) + '</span>' +
       '<div class="bento-media" aria-hidden="true">' +
         fxFor(t) +
         '<span class="bento-launch">Launch workbench <span class="bento-arrow">\u2192</span></span>' +
       '</div>' +
       '<div class="bento-body">' +
-        '<p class="bento-tele"><span>Grade ' + t.grade + '</span>' +
+        '<p class="bento-tele"><span>' + pad(i + 1) + ' // ' + esc(t.topic.toUpperCase()) + '</span>' +
+          '<span>G' + t.grade + '</span>' +
           '<span><b>' + pad(n) + '</b> ' + (n === 1 ? 'folder' : 'folders') + '</span>' +
           '<span><b>' + pad(pls) + '</b> ' + (pls === 1 ? 'playlist' : 'playlists') + '</span></p>' +
         '<h3 class="bento-title font-display"><button type="button" class="bento-open" data-open="' + esc(key) + '" aria-haspopup="dialog">' +
-          '<span class="bento-num" aria-hidden="true">' + pad(i + 1) + ' / </span>' + esc(t.topic) + '</button></h3>' +
+          esc(t.topic) + '</button></h3>' +
         '<ul class="bento-items">' + shown.map(function (d) { return '<li>' + esc(d.title) + '</li>'; }).join('') +
           (n > shown.length ? '<li class="bento-more">+' + (n - shown.length) + ' more</li>' : '') + '</ul>' +
         '<div class="bento-foot"><p class="bento-res">' + res + '</p>' + doneButton(key) + '</div>' +
@@ -460,13 +466,48 @@
   bentoEl.addEventListener('pointerleave', function () { wake(null); });
   bentoEl.addEventListener('focusin', function (e) { wake(e.target.closest('.bento-card')); });
   bentoEl.addEventListener('focusout', function (e) { if (!bentoEl.contains(e.relatedTarget)) wake(null); });
+  /* The cursor steers each schematic: the tangent point and the ball slide along their curve,
+     the wave shifts phase and the solid turns. Leaving the card hands it back to the animation. */
+  var steerCard = null;
+  function steer(fx, u, v) {
+    var kind = fx.getAttribute('data-fx');
+    if (kind === 'cube') { $('.cube', fx).style.transform = 'rotateX(' + (-8 - v * 40).toFixed(1) + 'deg) rotateY(' + (u * 220 - 80).toFixed(1) + 'deg)'; return; }
+    if (kind === 'sine') { $('.fx-wave', fx).setAttribute('transform', 'translate(' + (-u * 40).toFixed(1) + ' 0)'); return; }
+    var path = $('.fx-path', fx), mover = $('.fx-steer', fx);
+    if (!path || !mover || !path.getTotalLength) return;
+    var len = path.getTotalLength(), l = len * (0.06 + 0.88 * u);
+    var p = path.getPointAtLength(l), q = path.getPointAtLength(Math.min(len, l + 1));
+    var ang = Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI;
+    mover.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ') rotate(' + ang.toFixed(1) + ')');
+  }
+  function unsteer() {
+    if (!steerCard) return;
+    steerCard.classList.remove('is-steer');
+    var cube = $('.cube', steerCard);
+    if (cube) cube.style.transform = '';
+    setLive(steerCard, steerCard.classList.contains('is-live'));   // resume only if it was running
+    steerCard = null;
+  }
   bentoEl.addEventListener('pointermove', function (e) {
     var c = e.target.closest('.bento-card');
-    if (!c || e.pointerType === 'touch') return;
+    if (e.pointerType === 'touch') return;
+    if (c !== steerCard) unsteer();
+    if (!c) return;
     var r = c.getBoundingClientRect();
     c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
     c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    var fx = $('[data-fx]', c), media = $('.bento-media', c);
+    if (!fx || !media) return;
+    var m = media.getBoundingClientRect();
+    if (steerCard !== c) {
+      steerCard = c;
+      c.classList.add('is-steer');
+      $$('svg.fx-svg', c).forEach(function (s) { if (s.pauseAnimations) s.pauseAnimations(); });
+    }
+    steer(fx, clamp01((e.clientX - m.left) / m.width), clamp01((e.clientY - m.top) / m.height));
   });
+  bentoEl.addEventListener('pointerleave', unsteer);
+  function clamp01(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
 
   /* ---------- Study Workbench (slide-over) ---------- */
   var wb = $('#workbench');
@@ -514,6 +555,14 @@
     wb.setAttribute('data-subject', t.subject);
 
     var pls = playlistsFor(t);
+    $('#wb-overview').innerHTML =
+      '<p class="wb-ov-k">Overview</p>' +
+      '<p class="wb-ov-tele"><span><b>' + pad(n) + '</b> folders</span>' +
+        ['notes', 'pdf', 'worksheet'].map(function (k) { return '<span><b>' + pad(resCount(t, k)) + '</b> ' + RES[k].label + '</span>'; }).join('') +
+        '<span><b>' + pad(pls.length) + '</b> ' + (pls.length === 1 ? 'playlist' : 'playlists') + '</span></p>' +
+      '<ol class="wb-ov-list">' + t.items.map(function (d, i) {
+        return '<li><span class="wb-ov-n">' + pad(i + 1) + '</span><span><b>' + esc(d.title) + '</b> ' + esc(d.summary) + '</span></li>';
+      }).join('') + '</ol>';
     $('#wb-video').innerHTML =
       '<div class="wb-stage">' + fxFor(t) +
         (pls[0] ? '<a class="wb-play" href="' + esc(pls[0].url) + '" target="_blank" rel="noopener noreferrer">' +
@@ -531,8 +580,10 @@
 
     var fs = FORMULAS[t.grade + '/' + t.topic] || [];
     $('#wb-formulas').hidden = !fs.length;
-    $('#wb-formula-list').innerHTML = fs.map(function (f) {
-      return '<li><code class="wb-f">' + esc(f[0]) + '</code><span class="wb-f-note">' + esc(f[1]) + '</span></li>';
+    $('#wb-formula-list').innerHTML = fs.map(function (f, i) {
+      return '<details class="wb-acc-item"' + (i === 0 ? ' open' : '') + '><summary>' +
+        '<span class="wb-acc-n">' + pad(i + 1) + '</span><code class="wb-f">' + esc(f[0]) + '</code>' +
+        icon('chevron', 'icon-sm wb-acc-chev') + '</summary><p class="wb-f-note">' + esc(f[1]) + '</p></details>';
     }).join('');
 
     var first = null;

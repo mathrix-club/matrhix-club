@@ -6,9 +6,10 @@
 /*
  * Brand. Change these two lines to rename the site everywhere: header, hero, badges,
  * footer, status bar, page titles and the messages the site writes for WhatsApp.
+ * In the tagline, *word* sets that word in the italic serif.
  */
 var SITE_BRAND_NAME = 'MATHRIX';
-var SITE_TAGLINE = 'Pro Learning Experience';
+var SITE_TAGLINE = 'Pro *Learning* Experience';
 
 window.MATHRIX_CONFIG = {
   club: {

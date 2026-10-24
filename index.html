@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MATHRIX | Math &amp; Mechanics Club</title>
   <meta name="description" content="MATHRIX is The Mathrix Club: Math and Mechanics explained for Grade 10 and Grade 11 students, with concept folders, video playlists and a team you can message.">
-  <meta name="theme-color" content="#0f1722">
+  <meta name="theme-color" content="#11161d">
   <script>
     /* Apply the saved study theme before anything paints. */
     (function () {
@@ -19,7 +19,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=JetBrains+Mono:wght@400..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400..700&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script>
@@ -35,19 +35,19 @@
             mist: 'var(--text-3)'
           },
           fontFamily: {
-            display: ['Inter', 'ui-sans-serif', 'sans-serif'],
-            body: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            display: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'sans-serif'],
+            body: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace']
           }
         }
       }
     };
   </script>
-  <link rel="stylesheet" href="css/styles.css?v=16">
+  <link rel="stylesheet" href="css/styles.css?v=17">
 </head>
 <body class="font-body antialiased">
 
-  <div class="mesh" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="grain" aria-hidden="true"></div>
 
   <!-- Icon sprite -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -71,6 +71,7 @@
       <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
       <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></symbol>
       <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-crosshair" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.5"/><path d="M12 2.5v5M12 16.5v5M2.5 12h5M16.5 12h5"/></symbol>
       <symbol id="i-focus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12v.01"/></symbol>
       <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.6 6.6 0 0 0 10.5 10.5z"/></symbol>
       <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
@@ -100,11 +101,11 @@
 
       <div class="header-actions">
       <a class="nav-join" href="#" data-join target="_blank" rel="noopener noreferrer">Join<span class="sr-only"> the club (opens a form in a new tab)</span></a>
-      <div class="theme-switch" id="theme-switch" role="radiogroup" aria-label="Finish">
+      <div class="theme-switch" id="theme-switch" role="radiogroup" aria-label="Colour palette">
         <span class="theme-thumb" aria-hidden="true"></span>
-        <button type="button" role="radio" class="theme-opt" data-theme-opt="focus" aria-checked="true" title="Natural Titanium (Study Mode)"><span class="finish-dot" aria-hidden="true"></span><span class="sr-only">Natural Titanium, Study Mode</span></button>
-        <button type="button" role="radio" class="theme-opt" data-theme-opt="black" aria-checked="false" tabindex="-1" title="Space Black"><span class="finish-dot" aria-hidden="true"></span><span class="sr-only">Space Black</span></button>
-        <button type="button" role="radio" class="theme-opt" data-theme-opt="light" aria-checked="false" tabindex="-1" title="Starlight White"><span class="finish-dot" aria-hidden="true"></span><span class="sr-only">Starlight White</span></button>
+        <button type="button" role="radio" class="theme-opt" data-theme-opt="focus" aria-checked="true" title="Nordic Study"><span class="finish-dot" aria-hidden="true"></span><span class="theme-name" aria-hidden="true">Nordic</span><span class="sr-only">Nordic Study</span></button>
+        <button type="button" role="radio" class="theme-opt" data-theme-opt="black" aria-checked="false" tabindex="-1" title="Carbon Pro"><span class="finish-dot" aria-hidden="true"></span><span class="theme-name" aria-hidden="true">Carbon</span><span class="sr-only">Carbon Pro</span></button>
+        <button type="button" role="radio" class="theme-opt" data-theme-opt="light" aria-checked="false" tabindex="-1" title="Editorial Paper"><span class="finish-dot" aria-hidden="true"></span><span class="theme-name" aria-hidden="true">Paper</span><span class="sr-only">Editorial Paper</span></button>
       </div>
 
       <button type="button" id="menu-btn" class="menu-btn md:hidden" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
@@ -134,11 +135,11 @@
         <div class="hero-watermark" aria-hidden="true"><div class="hero-marquee"><span data-brand>MATHRIX</span><span data-brand>MATHRIX</span><span data-brand>MATHRIX</span><span data-brand>MATHRIX</span></div></div>
         <div class="hero-inner mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="hero-copy">
-            <p class="hero-badge"><span class="hero-badge-star" aria-hidden="true">&#10022;</span>Grade 10 &amp; 11 Interactive Platform</p>
+            <p class="hero-badge"><svg class="icon hero-badge-mark" aria-hidden="true"><use href="#i-crosshair"/></svg>Grade 10 &amp; 11 Interactive Platform</p>
             <h1 id="home-title" class="wordmark font-display" tabindex="-1">
               <span class="tier tier-1" data-brand>MATHRIX</span>
-              <span class="tier tier-2" data-tagline-part="1">The Math &amp; Mechanics club</span>
-              <span class="tier tier-3" data-tagline-part="2">for Grade 10 and Grade 11.</span>
+              <span class="tier tier-2" data-tagline-part="1">Pro <em class="serif">Learning</em> Experience</span>
+              <span class="tier tier-3" data-tagline-part="2" hidden></span>
             </h1>
             <p class="hero-body">Concept notes, worked examples and practice worksheets for algebra, geometry, calculus basics, kinematics, statics and dynamics. Every topic has a folder you can open in one tap.</p>
             <div class="mt-8 flex flex-wrap gap-3">
@@ -268,10 +269,10 @@
 
         <div class="section-block pt-0">
           <h2 class="section-title font-display">Find what you need in three steps</h2>
-          <ol class="steps mt-10 grid gap-5 md:grid-cols-3">
-            <li class="glass"><span class="step-n font-mono" aria-hidden="true">1</span><h3 class="font-display">Pick your grade</h3><p>Grade 10 and Grade 11 each have their own topic folders.</p></li>
-            <li class="glass"><span class="step-n font-mono" aria-hidden="true">2</span><h3 class="font-display">Open a folder</h3><p>Choose a topic, or search for the concept you want to revise.</p></li>
-            <li class="glass"><span class="step-n font-mono" aria-hidden="true">3</span><h3 class="font-display">Study in the workbench</h3><p>Watch the playlist, check the key formulas, and open the notes and worksheets on Google Drive.</p></li>
+          <ol class="steps mt-10">
+            <li class="glass"><span class="step-n font-mono" aria-hidden="true">01</span><h3 class="font-display">Pick your grade</h3><p>Grade 10 and Grade 11 each have their own topic folders.</p></li>
+            <li class="glass"><span class="step-n font-mono" aria-hidden="true">02</span><h3 class="font-display">Open a folder</h3><p>Choose a topic, or search for the concept you want to revise.</p></li>
+            <li class="glass"><span class="step-n font-mono" aria-hidden="true">03</span><h3 class="font-display">Study in the workbench</h3><p>Watch the playlist, check the key formulas, and open the notes and worksheets on Google Drive.</p></li>
           </ol>
         </div>
 
@@ -388,12 +389,13 @@
         </header>
 
         <div class="wb-split">
-          <section class="wb-pane wb-left" aria-label="Video and visuals">
+          <section class="wb-pane wb-left" aria-label="Overview, video and formulas">
+            <div class="wb-overview" id="wb-overview"></div>
             <div class="wb-video" id="wb-video"></div>
-            <details class="wb-formulas" id="wb-formulas" open>
-              <summary><span>Key formulas</span><svg class="icon icon-sm wb-sum-chev" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
-              <ul class="wb-formula-list" id="wb-formula-list"></ul>
-            </details>
+            <div class="wb-formulas" id="wb-formulas">
+              <h3 class="wb-acc-k">Key formulas</h3>
+              <div class="wb-formula-list" id="wb-formula-list"></div>
+            </div>
           </section>
 
           <section class="wb-pane wb-right" aria-label="Study material">
@@ -429,7 +431,7 @@
         </header>
 
         <h2 class="block-title font-display">Follow and join</h2>
-        <div id="social-grid" class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"></div>
+        <div id="social-grid" class="social-grid"></div>
 
         <section id="yt-stats" class="yt-stats glass" aria-labelledby="yt-stats-title">
           <div class="yt-stats-head">
@@ -541,11 +543,11 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="js/config.js?v=16"></script>
-  <script src="js/study-data.js?v=16"></script>
-  <script src="js/ascii-bg.js?v=16"></script>
-  <script src="js/hero3d.js?v=16"></script>
-  <script src="js/app.js?v=16"></script>
-  <script src="js/showcase.js?v=16"></script>
+  <script src="js/config.js?v=17"></script>
+  <script src="js/study-data.js?v=17"></script>
+  <script src="js/ascii-bg.js?v=17"></script>
+  <script src="js/hero3d.js?v=17"></script>
+  <script src="js/app.js?v=17"></script>
+  <script src="js/showcase.js?v=17"></script>
 </body>
 </html>
