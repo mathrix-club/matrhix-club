@@ -20,6 +20,13 @@
   var cols = 0, rows = 0, w = 0, h = 0;
   var running = false, raf = 0, last = 0, t = reduceMotion ? 4 : 0, visible = true;
   var pc = -99, pr = -99, pActive = 0;
+  var ink = '#fff';
+  function readInk() {
+    // the characters take the theme's text colour
+    var v = getComputedStyle(document.documentElement).getPropertyValue('--fg-rgb').trim();
+    ink = v ? 'rgb(' + v + ')' : '#fff';
+  }
+  readInk();
 
   function size() {
     w = cv.clientWidth; h = cv.clientHeight;
@@ -36,7 +43,7 @@
 
   function draw() {
     ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = ink;
     var top = RAMP.length - 1, c, r;
     for (r = 0; r < rows; r++) {
       for (c = 0; c < cols; c++) {
@@ -91,6 +98,7 @@
       if (visible) start(); else stop();
     }, { threshold: 0 }).observe(hero);
   }
+  document.addEventListener('mathrix:theme', function () { readInk(); if (w) draw(); });
   document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else start(); });
 
   hero.addEventListener('pointermove', function (e) {

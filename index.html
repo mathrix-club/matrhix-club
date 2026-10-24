@@ -1,16 +1,25 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="focus">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MATHRIX | Math &amp; Mechanics Club</title>
   <meta name="description" content="MATHRIX is The Mathrix Club: Math and Mechanics explained for Grade 10 and Grade 11 students, with concept folders, video playlists and a team you can message.">
-  <meta name="theme-color" content="#05080d">
+  <meta name="theme-color" content="#0f1722">
+  <script>
+    /* Apply the saved study theme before anything paints. */
+    (function () {
+      try {
+        var t = localStorage.getItem('mathrix-theme');
+        if (t === 'focus' || t === 'black' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
   <link rel="icon" type="image/png" href="logo.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300..800&family=Inter:wght@400..700&family=JetBrains+Mono:wght@400..700&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script>
@@ -23,20 +32,22 @@
             neon: '#27e8ff',
             mint: '#3df5a8',
             chalk: '#e6f5f3',
-            mist: '#a6a6a6'
+            mist: 'var(--text-3)'
           },
           fontFamily: {
-            display: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
-            body: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+            display: ['Outfit', 'ui-sans-serif', 'sans-serif'],
+            body: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace']
           }
         }
       }
     };
   </script>
-  <link rel="stylesheet" href="css/styles.css?v=9">
+  <link rel="stylesheet" href="css/styles.css?v=14">
 </head>
 <body class="font-body antialiased">
+
+  <div class="mesh" aria-hidden="true"><i></i><i></i><i></i></div>
 
   <!-- Icon sprite -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -60,6 +71,9 @@
       <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
       <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></symbol>
       <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-focus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12v.01"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.6 6.6 0 0 0 10.5 10.5z"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
       <symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 3c1 3.2 4.5 4.9 4.5 9.2A4.5 4.5 0 0 1 12 17a4.5 4.5 0 0 1-4.5-4.8c0-1.5.6-2.6 1.5-3.6.2 1.1.8 1.8 1.6 2.1C10.4 8 10.9 5.3 12 3z"/><path d="M12 21v-.01"/></symbol>
     </defs>
   </svg>
@@ -69,13 +83,14 @@
   <!-- Header -->
   <header class="site-header" id="site-header">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-      <a href="#/home" class="brand" aria-label="MATHRIX, home">
-        <img class="brand-logo" src="logo.png" alt="Mathrix logo" width="44" height="44">
-        <span class="brand-word font-display">MATHRIX</span>
+      <a href="#/home" class="brand" aria-label="MATHRIX, home" data-brand-attr="aria-label:{brand}, home">
+        <img class="brand-logo" src="logo.png" alt="MATHRIX logo" data-brand-attr="alt:{brand} logo" width="44" height="44">
+        <span class="brand-word font-display" data-brand>MATHRIX</span>
       </a>
 
-      <nav class="hidden md:block" aria-label="Main">
-        <ul class="flex items-center gap-1" id="nav-desktop">
+      <nav class="dock hidden md:block" aria-label="Main">
+        <span class="dock-indicator" aria-hidden="true"></span>
+        <ul class="dock-list" id="nav-desktop">
           <li><a class="nav-link" data-nav="home" href="#/home">Home</a></li>
           <li><a class="nav-link" data-nav="study" href="#/study">Study Hub</a></li>
           <li><a class="nav-link" data-nav="team" href="#/team">Team</a></li>
@@ -83,10 +98,19 @@
         </ul>
       </nav>
 
+      <div class="header-actions">
+      <div class="theme-switch" id="theme-switch" role="radiogroup" aria-label="Colour theme">
+        <span class="theme-thumb" aria-hidden="true"></span>
+        <button type="button" role="radio" class="theme-opt" data-theme-opt="focus" aria-checked="true" title="Study Focus"><svg class="icon" aria-hidden="true"><use href="#i-focus"/></svg><span class="sr-only">Study Focus</span></button>
+        <button type="button" role="radio" class="theme-opt" data-theme-opt="black" aria-checked="false" tabindex="-1" title="Midnight Black"><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg><span class="sr-only">Midnight Black</span></button>
+        <button type="button" role="radio" class="theme-opt" data-theme-opt="light" aria-checked="false" tabindex="-1" title="Daylight White"><svg class="icon" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr-only">Daylight White</span></button>
+      </div>
+
       <button type="button" id="menu-btn" class="menu-btn md:hidden" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
         <svg class="icon icon-md" aria-hidden="true" data-open><use href="#i-menu"/></svg>
         <svg class="icon icon-md hidden" aria-hidden="true" data-close><use href="#i-close"/></svg>
       </button>
+      </div>
     </div>
 
     <nav id="mobile-nav" class="mobile-nav md:hidden" aria-label="Main" hidden>
@@ -105,15 +129,19 @@
     <section data-view="home" aria-labelledby="home-title">
       <div id="hero" class="hero">
         <canvas id="ascii-bg" class="ascii-bg" aria-hidden="true"></canvas>
+        <div class="hero-watermark" aria-hidden="true"><div class="hero-marquee"><span data-brand>MATHRIX</span><span data-brand>MATHRIX</span><span data-brand>MATHRIX</span><span data-brand>MATHRIX</span></div></div>
         <div class="hero-inner mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="hero-copy">
             <p class="hero-badge"><span class="hero-badge-star" aria-hidden="true">&#10022;</span>Grade 10 &amp; 11 Interactive Platform</p>
-            <h1 id="home-title" class="wordmark font-display" tabindex="-1"><span>MATHRIX</span></h1>
-            <p class="hero-sub font-display">The Math &amp; Mechanics club for Grade 10 and Grade 11.</p>
+            <h1 id="home-title" class="wordmark font-display" tabindex="-1">
+              <span class="tier tier-1" data-brand>MATHRIX</span>
+              <span class="tier tier-2" data-tagline-part="1">The Math &amp; Mechanics club</span>
+              <span class="tier tier-3" data-tagline-part="2">for Grade 10 and Grade 11.</span>
+            </h1>
             <p class="hero-body">Concept notes, worked examples and practice worksheets for algebra, geometry, calculus basics, kinematics, statics and dynamics. Every topic has a folder you can open in one tap.</p>
             <div class="mt-8 flex flex-wrap gap-3">
-              <a href="#/study" class="btn btn-primary">Open the Study Hub <svg class="icon" aria-hidden="true"><use href="#i-folder"/></svg></a>
-              <a href="#about" class="btn btn-ghost" id="about-link">About the club</a>
+              <a href="#/study" class="interactive-hover-btn interactive-hover-btn--solid">Open the Study Hub</a>
+              <a href="#about" class="interactive-hover-btn" id="about-link">About the club</a>
             </div>
           </div>
 
@@ -180,8 +208,8 @@
               <p class="about-lead font-display">We are The Mathrix Club.</p>
               <p class="about-text">We specialize in explaining complex Math and Mechanics topics for Grade 10 and Grade 11 students. We also create and publish educational videos to simplify learning outcomes.</p>
               <div class="mt-8 flex flex-wrap gap-3">
-                <a href="#/study" class="btn btn-primary">Explore the Study Hub</a>
-                <a href="https://youtube.com/@themathrix" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Watch our videos <svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg><span class="sr-only">(opens in a new tab)</span></a>
+                <a href="#/study" class="interactive-hover-btn interactive-hover-btn--solid">Explore the Study Hub</a>
+                <a href="https://youtube.com/@themathrix" class="interactive-hover-btn" target="_blank" rel="noopener noreferrer">Watch our videos<span class="sr-only"> (opens in a new tab)</span></a>
               </div>
             </div>
             <div class="about-cards">
@@ -224,21 +252,51 @@
           </div>
         </div>
 
+        <!-- Features bento: three live diagrams -->
+        <section class="ib" id="ib" aria-labelledby="ib-title">
+          <div class="ib-sec">
+            <div class="ib-head">
+              <span class="ib-tag">Features</span>
+              <h2 id="ib-title" class="ib-h2 font-display"><span>How <span class="ib-muted" data-brand>MATHRIX</span></span><span>works for you</span></h2>
+            </div>
+            <div class="ib-bento" id="ib-bento"></div>
+          </div>
+        </section>
+
         <div class="section-block pt-0">
           <h2 class="section-title font-display">Find what you need in three steps</h2>
           <ol class="steps mt-10 grid gap-5 md:grid-cols-3">
-            <li class="glass"><span class="step-n font-mono" aria-hidden="true">1</span><h3 class="font-display">Pick your grade</h3><p>Grade 10 and Grade 11 each have their own mind map.</p></li>
-            <li class="glass"><span class="step-n font-mono" aria-hidden="true">2</span><h3 class="font-display">Follow a branch</h3><p>Open a subject, then a topic, or search for the concept you want to revise.</p></li>
-            <li class="glass"><span class="step-n font-mono" aria-hidden="true">3</span><h3 class="font-display">Open or watch</h3><p>Open the folder in Google Drive, or watch the matching YouTube playlist.</p></li>
+            <li class="glass"><span class="step-n font-mono" aria-hidden="true">1</span><h3 class="font-display">Pick your grade</h3><p>Grade 10 and Grade 11 each have their own topic folders.</p></li>
+            <li class="glass"><span class="step-n font-mono" aria-hidden="true">2</span><h3 class="font-display">Open a folder</h3><p>Choose a topic, or search for the concept you want to revise.</p></li>
+            <li class="glass"><span class="step-n font-mono" aria-hidden="true">3</span><h3 class="font-display">Study in the workbench</h3><p>Watch the playlist, check the key formulas, and open the notes and worksheets on Google Drive.</p></li>
           </ol>
         </div>
+
+        <!-- Scroll-tilt preview of the Study Hub -->
+        <section class="cs" id="cs" aria-labelledby="cs-title">
+          <div class="cs-stage">
+            <header class="cs-head">
+              <p class="cs-kicker">Study Hub preview</p>
+              <h2 id="cs-title" class="cs-title font-display">Every topic,<span>one workbench</span></h2>
+            </header>
+            <div class="cs-card" id="cs-card">
+              <div class="cs-screen">
+                <div class="cs-bar" aria-hidden="true">
+                  <span class="cs-dots"><i></i><i></i><i></i></span>
+                  <span class="cs-path"><span data-brand="lower">mathrix</span> / study hub / grade 10</span>
+                </div>
+                <ul class="cs-grid" id="cs-grid" aria-label="Grade 10 topics"></ul>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <div class="cta-band glass">
           <div>
             <h2 class="font-display">Want to join, or have a question?</h2>
             <p>Send us a message and a club member will reply.</p>
           </div>
-          <a href="#/contact" class="btn btn-primary">Write to the club <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a href="#/contact" class="interactive-hover-btn interactive-hover-btn--solid">Write to the club</a>
         </div>
       </div>
     </section>
@@ -247,16 +305,47 @@
     <section data-view="study" aria-labelledby="study-title" hidden>
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <header class="page-head">
+          <p class="page-kicker">The collection</p>
           <h1 id="study-title" class="page-title font-display" tabindex="-1">Study Hub</h1>
-          <p class="page-lead">A mind map for Grade 10 and Grade 11. Follow a branch to a concept folder, or jump straight to a video playlist.</p>
+          <p class="page-lead">Every topic for Grade 10 and Grade 11 is a folder. Open one to get its playlist, key formulas, notes and worksheets side by side.</p>
         </header>
+      </div>
 
-        <div class="tabs" role="tablist" aria-label="Grade">
-          <button type="button" role="tab" id="tab-g10" class="tab" data-grade="10" aria-selected="true" aria-controls="study-panel">Grade 10</button>
-          <button type="button" role="tab" id="tab-g11" class="tab" data-grade="11" aria-selected="false" aria-controls="study-panel" tabindex="-1">Grade 11</button>
+      <!-- Sticky filter bar -->
+      <div class="filterbar">
+        <div class="filterbar-inner mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="tabs" role="tablist" aria-label="Grade" data-grade="10">
+            <button type="button" role="tab" id="tab-g10" class="tab" data-grade="10" aria-selected="true" aria-controls="study-panel">Grade 10</button>
+            <button type="button" role="tab" id="tab-g11" class="tab" data-grade="11" aria-selected="false" aria-controls="study-panel" tabindex="-1">Grade 11</button>
+          </div>
+
+          <div class="seg" role="group" aria-label="Show subject">
+            <button type="button" class="seg-btn" data-subject="all" aria-pressed="true">All</button>
+            <button type="button" class="seg-btn" data-subject="math" aria-pressed="false">Math</button>
+            <button type="button" class="seg-btn" data-subject="mechanics" aria-pressed="false">Mechanics</button>
+          </div>
+
+          <label class="search" for="study-search">
+            <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+            <span class="sr-only">Search topics</span>
+            <input id="study-search" type="search" placeholder="Search, e.g. torque" autocomplete="off">
+          </label>
+        </div>
+      </div>
+
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="study-meta">
+          <p id="study-count" class="result-count bento-count" aria-live="polite"></p>
+          <div class="progress" id="study-progress">
+            <p class="progress-text"><span class="progress-label">Progress</span> <span id="progress-count">0 of 0 topics done</span></p>
+            <div class="progress-track" role="progressbar" aria-labelledby="progress-count" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <span class="progress-fill" id="progress-fill"></span>
+            </div>
+          </div>
         </div>
 
         <div id="study-panel" role="tabpanel" aria-labelledby="tab-g10">
+          <div id="bento" class="bento" role="list" aria-label="Grade 10 topics"></div>
 
           <div class="resources">
             <div class="drive-cta glass">
@@ -264,12 +353,7 @@
                 <h2 id="drive-cta-title" class="drive-cta-title font-display">Grade 10 resources on Google Drive</h2>
                 <p class="drive-cta-text">Every note, PDF and worksheet is in the club's shared Drive folder. It opens in a new tab.</p>
               </div>
-              <a id="drive-cta" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer">
-                <svg class="icon" aria-hidden="true"><use href="#i-folder"/></svg>
-                Access Google Drive folder
-                <svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg>
-                <span class="sr-only">(opens in a new tab)</span>
-              </a>
+              <a id="drive-cta" class="interactive-hover-btn interactive-hover-btn--solid" href="#" target="_blank" rel="noopener noreferrer">Access Google Drive folder<span class="sr-only"> (opens in a new tab)</span></a>
             </div>
 
             <div class="pl-card glass">
@@ -279,45 +363,51 @@
               <a id="pl-all" class="pl-all" href="#" target="_blank" rel="noopener noreferrer">See every playlist on YouTube <svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg><span class="sr-only">(opens in a new tab)</span></a>
             </div>
           </div>
-
-          <div class="toolbar glass">
-            <label class="search" for="study-search">
-              <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
-              <span class="sr-only">Search the mind map</span>
-              <input id="study-search" type="search" placeholder="Search concepts, e.g. torque or logarithms" autocomplete="off">
-            </label>
-
-            <div class="seg" role="group" aria-label="Show subject">
-              <button type="button" class="seg-btn" data-subject="all" aria-pressed="true">All</button>
-              <button type="button" class="seg-btn" data-subject="math" aria-pressed="false">Math</button>
-              <button type="button" class="seg-btn" data-subject="mechanics" aria-pressed="false">Mechanics</button>
-            </div>
-          </div>
-
-          <div class="mm-bar">
-            <p id="study-count" class="result-count" aria-live="polite"></p>
-            <ul class="mm-legend" aria-label="Colour key">
-              <li><i style="background:var(--cyan)"></i>Math</li>
-              <li><i style="background:var(--emerald)"></i>Mechanics</li>
-              <li><i style="background:var(--coral)"></i>Video playlist</li>
-            </ul>
-            <div class="mm-actions">
-              <button type="button" class="mm-act" id="mm-expand">Expand all</button>
-              <button type="button" class="mm-act" id="mm-collapse">Collapse to topics</button>
-            </div>
-          </div>
-
-          <div id="mindmap" class="mindmap" role="region" aria-label="Grade 10 mind map" tabindex="0"></div>
         </div>
       </div>
     </section>
+
+    <!-- Study Workbench: slide-over opened from a topic folder -->
+    <div class="wb" id="workbench" hidden>
+      <div class="wb-backdrop" data-wb-close></div>
+      <aside class="wb-panel" role="dialog" aria-modal="true" aria-labelledby="wb-title">
+        <header class="wb-head">
+          <div>
+            <p class="wb-meta" id="wb-meta"></p>
+            <h2 class="wb-title font-display" id="wb-title" tabindex="-1"></h2>
+          </div>
+          <button type="button" class="wb-close" data-wb-close aria-label="Close workbench">
+            <svg class="icon icon-md" aria-hidden="true"><use href="#i-close"/></svg>
+          </button>
+        </header>
+
+        <div class="wb-split">
+          <section class="wb-pane wb-left" aria-label="Video and visuals">
+            <div class="wb-video" id="wb-video"></div>
+            <details class="wb-formulas" id="wb-formulas" open>
+              <summary><span>Key formulas</span><svg class="icon icon-sm wb-sum-chev" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
+              <ul class="wb-formula-list" id="wb-formula-list"></ul>
+            </details>
+          </section>
+
+          <section class="wb-pane wb-right" aria-label="Study material">
+            <div class="wb-tabs" role="tablist" aria-label="Study material" id="wb-tabs">
+              <button type="button" role="tab" class="wb-tab" id="wb-tab-notes" data-kind="notes" aria-controls="wb-tabpanel">Concept Notes</button>
+              <button type="button" role="tab" class="wb-tab" id="wb-tab-pdf" data-kind="pdf" aria-controls="wb-tabpanel">Worked Examples</button>
+              <button type="button" role="tab" class="wb-tab" id="wb-tab-worksheet" data-kind="worksheet" aria-controls="wb-tabpanel">Practice Worksheets</button>
+            </div>
+            <div class="wb-tabpanel" id="wb-tabpanel" role="tabpanel" tabindex="0"></div>
+          </section>
+        </div>
+      </aside>
+    </div>
 
     <!-- ============ TEAM ============ -->
     <section data-view="team" aria-labelledby="team-title" hidden>
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <header class="page-head">
           <h1 id="team-title" class="page-title font-display" tabindex="-1">Team and leadership</h1>
-          <p class="page-lead">The students who run MATHRIX. Message the right person and you will get a faster answer.</p>
+          <p class="page-lead">The students who run <span data-brand>MATHRIX</span>. Message the right person and you will get a faster answer.</p>
         </header>
         <div id="team-groups" class="flex flex-col gap-14"></div>
       </div>
@@ -420,7 +510,7 @@
 
   <footer class="site-footer">
     <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-10 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-      <p class="flex items-center gap-3 text-mist"><img class="foot-logo" src="logo.png" alt="" width="28" height="28">&copy; <span id="year"></span> The Mathrix Club. Math &amp; Mechanics for Grades 10 and 11.</p>
+      <p class="flex items-center gap-3 text-mist"><img class="foot-logo" src="logo.png" alt="" width="28" height="28">&copy; <span id="year"></span> <span data-brand>MATHRIX</span>. Math &amp; Mechanics for Grades 10 and 11.</p>
       <ul class="flex flex-wrap gap-x-6 gap-y-2">
         <li><a class="foot-link" href="#/home">Home</a></li>
         <li><a class="foot-link" href="#/study">Study Hub</a></li>
@@ -433,7 +523,7 @@
   <!-- Fixed status bar: decorative, hidden from assistive tech -->
   <div class="statusbar" aria-hidden="true">
     <div class="sb-group">
-      <span>MATHRIX</span>
+      <span data-brand>MATHRIX</span>
       <span class="sb-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
       <span>PAGE <span class="sb-page" id="sb-page">HOME</span></span>
     </div>
@@ -444,10 +534,11 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="js/config.js?v=9"></script>
-  <script src="js/study-data.js?v=9"></script>
-  <script src="js/ascii-bg.js?v=9"></script>
-  <script src="js/hero3d.js?v=9"></script>
-  <script src="js/app.js?v=9"></script>
+  <script src="js/config.js?v=14"></script>
+  <script src="js/study-data.js?v=14"></script>
+  <script src="js/ascii-bg.js?v=14"></script>
+  <script src="js/hero3d.js?v=14"></script>
+  <script src="js/app.js?v=14"></script>
+  <script src="js/showcase.js?v=14"></script>
 </body>
 </html>

@@ -3,9 +3,16 @@
  * Values marked REPLACE are placeholders. The site works with them,
  * but links and numbers will not reach a real person or folder until you swap them.
  */
+/*
+ * Brand. Change these two lines to rename the site everywhere: header, hero, badges,
+ * footer, status bar, page titles and the messages the site writes for WhatsApp.
+ */
+var SITE_BRAND_NAME = 'MATHRIX';
+var SITE_TAGLINE = 'The Math & Mechanics club for Grade 10 and Grade 11.';
+
 window.MATHRIX_CONFIG = {
   club: {
-    name: 'MATHRIX',
+    name: SITE_BRAND_NAME,
     email: 'mathrix.club@example.com' // REPLACE: public club inbox (only used if form.method is 'email')
   },
 
@@ -24,8 +31,8 @@ window.MATHRIX_CONFIG = {
     recipient: 'mathrix.club@example.com' // REPLACE if you switch method to 'email'
   },
 
-  /* Official club Google Drive folder. Opens from the Study Hub banner, the mind map root and every folder without its own `drive` link. */
-  driveRoot: 'https://drive.google.com/drive/folders/186KTTxTpmV7JM3TuDDq7GVU6Qvn-Vciq',
+  /* Official club Google Drive folder ("Resources: Presentations & Materials"). Opens from the Study Hub banner and every workbench link without its own `drive` link. */
+  driveRoot: 'https://drive.google.com/drive/u/0/mobile/folders/186KTTxTpmV7JM3TuDDq7GVU6Qvn-Vciq',
 
   /*
    * YouTube playlists shown in the Study Hub (strip and mind map), per grade and subject.
