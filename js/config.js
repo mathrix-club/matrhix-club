@@ -64,7 +64,7 @@ window.MATHRIX_CONFIG = {
     subscribeUrl: 'https://youtube.com/@themathrix',
     channelId: 'UCRvzYUcd-Fm7SScCaC7UHNg',
     apiKey: 'AIzaSyCLqirIka3wBruvuu7QI4kR9ejnw60m8ZI',
-    snapshot: { subscribers: 212, views: 6701, asOf: '2026-10-08' }
+    snapshot: { subscribers: 242, views: 8933, asOf: '2026-10-24' }
   },
 
   socials: [
