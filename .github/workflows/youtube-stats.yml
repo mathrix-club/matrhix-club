@@ -1,0 +1,39 @@
+name: Refresh YouTube stats
+
+# Every 6 hours (and on demand from the Actions tab) the channel's subscriber and view counts are
+# fetched and saved to data/youtube-stats.json, which the site reads. The API key lives only in the
+# repository secret YT_API_KEY, so it never ships to visitors and works from any site address.
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: youtube-stats
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch stats
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: node scripts/update-youtube-stats.mjs
+
+      - name: Commit if changed
+        run: |
+          if [ -n "$(git status --porcelain data/youtube-stats.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/youtube-stats.json
+            git commit -m "Update YouTube stats"
+            git push
+          else
+            echo "Nothing to commit."
+          fi

@@ -723,7 +723,8 @@
   var ytCounts = $$('.count', ytEl);
   var nf = new Intl.NumberFormat('en-US');
   var ytData = { subscribers: YT.snapshot.subscribers, views: YT.snapshot.views };
-  var ytLive = false;
+  var ytLive = false;      // true once data/youtube-stats.json has loaded
+  var ytAsOf = YT.snapshot.asOf;
   var ytShown = false; // true once the counters have animated for the current visit
 
   $('#yt-subscribe').href = YT.subscribeUrl;
@@ -733,10 +734,9 @@
   function renderYtMeta() {
     $('#yt-badge-text').textContent = ytLive ? 'Live channel stats' : 'Channel stats';
     ytEl.classList.toggle('is-live', ytLive);
-    var asOf = $('#yt-asof');
-    if (ytLive) { asOf.textContent = 'Updated just now from YouTube.'; return; }
-    var d = new Date(YT.snapshot.asOf + 'T00:00:00');
-    asOf.textContent = isNaN(d) ? '' : 'As of ' + d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) + '.';
+    var d = new Date(ytAsOf + 'T00:00:00');
+    $('#yt-asof').textContent = isNaN(d) ? '' : (ytLive ? 'Refreshed from YouTube on ' : 'As of ') +
+      d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) + '.';
   }
 
   function animateCount(el, to) {
@@ -764,20 +764,18 @@
     $$('[data-final]', ytEl).forEach(function (el) { el.textContent = ytLabel(ytData[el.getAttribute('data-final')]); });
   }
 
+  /* The numbers come from data/youtube-stats.json, which a scheduled GitHub Action refreshes from the
+     YouTube API. No API key reaches the browser, so the site address can change without breaking this.
+     If the file cannot be read, the dated snapshot in config.js stays on screen. */
   function loadLiveYtStats() {
-    if (!YT.apiKey) return;
-    var url = 'https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + encodeURIComponent(YT.channelId) +
-      '&key=' + encodeURIComponent(YT.apiKey);
-    fetch(url).then(function (res) {
+    fetch('data/youtube-stats.json', { cache: 'no-store' }).then(function (res) {
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.json();
-    }).then(function (json) {
-      var s = json.items && json.items[0] && json.items[0].statistics;
-      if (!s) throw new Error('no statistics');
-      ytData = {
-        subscribers: s.hiddenSubscriberCount ? null : Number(s.subscriberCount),
-        views: Number(s.viewCount)
-      };
+    }).then(function (j) {
+      var views = Number(j.views), subs = j.subscribers === null ? null : Number(j.subscribers);
+      if (!isFinite(views) || (subs !== null && !isFinite(subs))) throw new Error('bad stats file');
+      ytData = { subscribers: subs, views: views };
+      if (typeof j.asOf === 'string') ytAsOf = j.asOf;
       ytLive = true;
       renderYtMeta();
       syncYtFinal();

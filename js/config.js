@@ -53,18 +53,14 @@ window.MATHRIX_CONFIG = {
 
   /*
    * YouTube channel stats.
-   * Browsers cannot read subscriber or view counts from YouTube directly, so there are two modes:
-   *  - apiKey set -> the page asks the YouTube Data API v3 for the current numbers (labelled "Live").
-   *    Create a key in Google Cloud, enable "YouTube Data API v3", and restrict the key to this
-   *    website's address (HTTP referrers). Anything in this file is public, so the restriction matters.
-   *  - apiKey empty, or the request fails -> the `snapshot` numbers are shown with their date.
-   *    Update the snapshot from the channel's About page now and then.
+   * The page reads data/youtube-stats.json, which the "Refresh YouTube stats" GitHub Action rewrites
+   * every 6 hours using the repository secret YT_API_KEY. There is no API key in this file on purpose:
+   * anything here is public. If that file cannot be read, the `snapshot` below is shown with its date.
    */
   youtube: {
     subscribeUrl: 'https://youtube.com/@themathrix',
     channelId: 'UCRvzYUcd-Fm7SScCaC7UHNg',
-    apiKey: 'AIzaSyCLqirIka3wBruvuu7QI4kR9ejnw60m8ZI',
-    snapshot: { subscribers: 242, views: 8933, asOf: '2026-10-24' }
+    snapshot: { subscribers: 263, views: 10629, asOf: '2026-11-05' }
   },
 
   socials: [
