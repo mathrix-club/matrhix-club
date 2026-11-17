@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en" data-theme="focus">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MATHRIX | Math &amp; Mechanics Club</title>
   <meta name="description" content="MATHRIX is The Mathrix Club: Math and Mechanics explained for Grade 10 and Grade 11 students, with concept folders, video playlists and a team you can message.">
-  <meta name="theme-color" content="#11161d">
+  <meta name="theme-color" content="#f5f4f0">
   <script>
     /* Apply the saved study theme before anything paints. */
     (function () {
@@ -19,6 +19,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400..700&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
@@ -43,7 +44,7 @@
       }
     };
   </script>
-  <link rel="stylesheet" href="css/styles.css?v=19">
+  <link rel="stylesheet" href="css/styles.css?v=21">
 </head>
 <body class="font-body antialiased">
 
@@ -85,7 +86,7 @@
   <header class="site-header" id="site-header">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
       <a href="#/home" class="brand" aria-label="MATHRIX, home" data-brand-attr="aria-label:{brand}, home">
-        <img class="brand-logo" src="logo.png" alt="MATHRIX logo" data-brand-attr="alt:{brand} logo" width="44" height="44">
+        <svg class="brand-mark" viewBox="0 0 28 28" aria-hidden="true"><path d="M5 24V5l9 11 9-11v19"/><path d="M2.5 8.5 5 5l2.5 3.5M20.5 8.5 23 5l2.5 3.5" /></svg>
         <span class="brand-word font-display" data-brand>MATHRIX</span>
       </a>
 
@@ -130,77 +131,24 @@
 
     <!-- ============ HOME ============ -->
     <section data-view="home" aria-labelledby="home-title">
-      <div id="hero" class="hero">
-        <canvas id="ascii-bg" class="ascii-bg" aria-hidden="true"></canvas>
-        <div class="hero-watermark" aria-hidden="true"><div class="hero-marquee"><span data-brand>MATHRIX</span><span data-brand>MATHRIX</span><span data-brand>MATHRIX</span><span data-brand>MATHRIX</span></div></div>
-        <div class="hero-inner mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div class="hero-copy">
-            <p class="hero-badge"><svg class="icon hero-badge-mark" aria-hidden="true"><use href="#i-crosshair"/></svg>Grade 10 &amp; 11 Interactive Platform</p>
-            <h1 id="home-title" class="wordmark font-display" tabindex="-1">
-              <span class="tier tier-1" data-brand>MATHRIX</span>
-              <span class="tier tier-2" data-tagline-part="1">Pro <em class="serif">Learning</em> Experience</span>
-              <span class="tier tier-3" data-tagline-part="2" hidden></span>
-            </h1>
-            <p class="hero-body">Concept notes, worked examples and practice worksheets for algebra, geometry, calculus basics, kinematics, statics and dynamics. Every topic has a folder you can open in one tap.</p>
-            <div class="mt-8 flex flex-wrap gap-3">
-              <a href="#/study" class="interactive-hover-btn interactive-hover-btn--solid">Open the Study Hub</a>
-              <a href="#" class="interactive-hover-btn interactive-hover-btn--ghost" data-join target="_blank" rel="noopener noreferrer">Join the club<span class="sr-only"> (opens a form in a new tab)</span></a>
-              <a href="#about" class="hero-link" id="about-link">About the club</a>
-            </div>
-          </div>
-
-          <div class="lab-stage">
-          <div id="hero-canvas" class="hero-canvas" aria-hidden="true"></div>
-          <aside class="lab glass" aria-labelledby="lab-title">
-            <div class="flex items-baseline justify-between gap-3">
-              <h2 id="lab-title" class="lab-title font-display">Projectile lab</h2>
-              <p class="lab-g"><span class="text-mist">g</span> <span class="font-mono">9.81 m/s&sup2;</span></p>
-            </div>
-            <p class="lab-help">Change a value and the dotted path redraws. Press Fire to launch the ball.</p>
-
-            <div class="lab-controls">
-            <div class="ctl">
-              <div class="ctl-head">
-                <label for="in-v">Power (m/s)</label>
-                <span class="ctl-val"><input class="num" id="in-v-num" type="number" min="5" max="80" step="1" inputmode="decimal" aria-label="Launch speed in metres per second, exact value"></span>
-              </div>
-              <input class="range" id="in-v" type="range" min="5" max="80" step="1" value="30">
-            </div>
-
-            <div class="ctl">
-              <div class="ctl-head">
-                <label for="in-a">Angle (deg)</label>
-                <span class="ctl-val"><input class="num" id="in-a-num" type="number" min="5" max="85" step="1" inputmode="decimal" aria-label="Launch angle in degrees, exact value"></span>
-              </div>
-              <input class="range" id="in-a" type="range" min="5" max="85" step="1" value="45">
-            </div>
-
-            <div class="ctl">
-              <div class="ctl-head">
-                <label for="in-n">Latitudes</label>
-                <span class="ctl-val"><input class="num" id="in-n-num" type="number" min="3" max="24" step="1" inputmode="numeric" aria-label="Number of latitude lines on the ball, exact value"></span>
-              </div>
-              <input class="range" id="in-n" type="range" min="3" max="24" step="1" value="10">
-            </div>
-            </div>
-
-            <div class="lab-bottom">
-            <dl class="readouts">
-              <div><dt>Range</dt><dd id="ro-range" class="font-mono">0 m</dd></div>
-              <div><dt>Max height</dt><dd id="ro-height" class="font-mono">0 m</dd></div>
-              <div><dt>Flight time</dt><dd id="ro-time" class="font-mono">0 s</dd></div>
-            </dl>
-            <div class="lab-actions">
-              <button type="button" id="lab-fire" class="btn btn-primary"><svg class="icon" aria-hidden="true"><use href="#i-fire"/></svg>Fire</button>
-              <button type="button" id="lab-reset" class="btn btn-ghost">Reset</button>
-            </div>
-            </div>
-            <p id="lab-scale" class="lab-scale"></p>
-            <p id="lab-live" class="sr-only" role="status"></p>
-          </aside>
+      <div id="hero" class="hp">
+        <canvas id="hp-canvas" class="hp-canvas" aria-hidden="true"></canvas>
+        <div class="hp-inner mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <p class="hp-kicker"><span data-brand>MATHRIX</span> / <span data-tagline>Pro Learning Experience</span></p>
+          <h1 id="home-title" class="hp-title font-display" tabindex="-1">Break every force into parts <span class="hp-inline" aria-hidden="true"><svg viewBox="0 0 64 28"><path d="M6 22 50 6"/><path d="M42 5.5 50 6l-5 6.5"/><path d="M6 22h44M50 22V6" stroke-dasharray="3 3"/></svg></span> you can solve.</h1>
+          <p class="hp-body">Concept notes, worked examples and practice worksheets for algebra, geometry, calculus basics, kinematics, statics and dynamics. Every topic has a folder you can open in one tap.</p>
+          <div class="hp-actions">
+            <a href="#/study" class="interactive-hover-btn interactive-hover-btn--solid">Open the Study Hub</a>
+            <a href="#" class="interactive-hover-btn interactive-hover-btn--ghost" data-join target="_blank" rel="noopener noreferrer">Join the club<span class="sr-only"> (opens a form in a new tab)</span></a>
+            <a href="#about" class="hero-link" id="about-link">About the club</a>
           </div>
         </div>
       </div>
+
+      <div class="marquee" aria-hidden="true"><div class="marquee-track">
+        <span>F = ma</span><span>v = u + at</span><span>s = ut + &frac12;at&sup2;</span><span>v&sup2; = u&sup2; + 2as</span><span>f<sub>s</sub> &le; &mu;<sub>s</sub>N</span><span>&tau; = Fd</span><span>p = mv</span><span>d/dx x&#8319; = nx&#8319;&#8315;&sup1;</span><span>&Delta; = b&sup2; &minus; 4ac</span><span>sin&sup2;&theta; + cos&sup2;&theta; = 1</span>
+        <span>F = ma</span><span>v = u + at</span><span>s = ut + &frac12;at&sup2;</span><span>v&sup2; = u&sup2; + 2as</span><span>f<sub>s</sub> &le; &mu;<sub>s</sub>N</span><span>&tau; = Fd</span><span>p = mv</span><span>d/dx x&#8319; = nx&#8319;&#8315;&sup1;</span><span>&Delta; = b&sup2; &minus; 4ac</span><span>sin&sup2;&theta; + cos&sup2;&theta; = 1</span>
+      </div></div>
 
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
@@ -231,68 +179,10 @@
           </div>
         </section>
 
-        <div class="section-block pt-0">
-          <h2 class="section-title font-display">Two subjects, one place to practise</h2>
+        <section class="section-block" aria-labelledby="acc-title">
+          <h2 id="acc-title" class="section-title font-display">Two subjects, one place to practise</h2>
           <p class="section-lead">Math builds the tools. Mechanics puts them to work on moving, pushing and balancing things.</p>
-
-          <div class="mt-10 grid gap-5 md:grid-cols-2">
-            <article class="subject-panel glass" data-subject="math">
-              <h3 class="font-display">Math</h3>
-              <p>Sharpen the algebra and geometry habits that make everything later easier, then meet limits and derivatives.</p>
-              <ul class="topic-links">
-                <li><a href="#/study?subject=math&amp;q=function">Functions</a></li>
-                <li><a href="#/study?subject=math&amp;q=absolute">Absolute function</a></li>
-              </ul>
-            </article>
-            <article class="subject-panel glass" data-subject="mechanics">
-              <h3 class="font-display">Mechanics</h3>
-              <p>Work forces and motion from the free-body diagram to the final answer, one step at a time.</p>
-              <ul class="topic-links">
-                <li><a href="#/study?subject=mechanics&amp;topic=Kinematics">Kinematics</a></li>
-                <li><a href="#/study?subject=mechanics&amp;topic=Statics">Statics</a></li>
-                <li><a href="#/study?subject=mechanics&amp;topic=Dynamics">Dynamics</a></li>
-              </ul>
-            </article>
-          </div>
-        </div>
-
-        <!-- Features bento: three live diagrams -->
-        <section class="ib" id="ib" aria-labelledby="ib-title">
-          <div class="ib-sec">
-            <div class="ib-head">
-              <span class="ib-tag">Features</span>
-              <h2 id="ib-title" class="ib-h2 font-display"><span>How <span class="ib-muted" data-brand>MATHRIX</span></span><span>works for you</span></h2>
-            </div>
-            <div class="ib-bento" id="ib-bento"></div>
-          </div>
-        </section>
-
-        <div class="section-block pt-0">
-          <h2 class="section-title font-display">Find what you need in three steps</h2>
-          <ol class="steps mt-10">
-            <li class="glass"><span class="step-n font-mono" aria-hidden="true">01</span><h3 class="font-display">Pick your grade</h3><p>Grade 10 and Grade 11 each have their own topic folders.</p></li>
-            <li class="glass"><span class="step-n font-mono" aria-hidden="true">02</span><h3 class="font-display">Open a folder</h3><p>Choose a topic, or search for the concept you want to revise.</p></li>
-            <li class="glass"><span class="step-n font-mono" aria-hidden="true">03</span><h3 class="font-display">Study in the workbench</h3><p>Watch the playlist, check the key formulas, and open the notes and worksheets on Google Drive.</p></li>
-          </ol>
-        </div>
-
-        <!-- Scroll-tilt preview of the Study Hub -->
-        <section class="cs" id="cs" aria-labelledby="cs-title">
-          <div class="cs-stage">
-            <header class="cs-head">
-              <p class="cs-kicker">Study Hub preview</p>
-              <h2 id="cs-title" class="cs-title font-display">Every topic,<span>one workbench</span></h2>
-            </header>
-            <div class="cs-card" id="cs-card">
-              <div class="cs-screen">
-                <div class="cs-bar" aria-hidden="true">
-                  <span class="cs-dots"><i></i><i></i><i></i></span>
-                  <span class="cs-path"><span data-brand="lower">mathrix</span> / study hub / grade 10</span>
-                </div>
-                <ul class="cs-grid" id="cs-grid" aria-label="Grade 10 topics"></ul>
-              </div>
-            </div>
-          </div>
+          <div class="hacc" id="hacc" role="list"></div>
         </section>
 
         <div class="cta-band glass">
@@ -341,35 +231,50 @@
       </div>
 
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="study-meta">
-          <p id="study-count" class="result-count bento-count" aria-live="polite"></p>
-          <div class="progress" id="study-progress">
-            <p class="progress-text"><span class="progress-label">Progress</span> <span id="progress-count">0 of 0 topics done</span></p>
+        <div class="hub-bento">
+        <figure class="sbx-fig hb-plane">
+          <figcaption class="sbx-cap"><span>Fig. 1</span> Inclined plane with friction</figcaption>
+          <canvas id="plane-canvas" class="sbx-canvas" role="img" aria-label="Block on an inclined plane with its force vectors"></canvas>
+          <p class="sbx-status" id="plane-status" aria-live="polite"></p>
+          <div class="sbx-controls">
+            <label class="sbx-ctl"><span>Angle &theta;</span><input class="range" type="range" id="pl-theta" min="0" max="60" step="1" value="20"><output for="pl-theta" id="pl-theta-out"></output></label>
+            <label class="sbx-ctl"><span>Mass m (kg)</span><input class="range" type="range" id="pl-mass" min="1" max="10" step="0.5" value="4"><output for="pl-mass" id="pl-mass-out"></output></label>
+            <label class="sbx-ctl"><span>Static &mu;<sub>s</sub></span><input class="range" type="range" id="pl-mus" min="0" max="1" step="0.05" value="0.5"><output for="pl-mus" id="pl-mus-out"></output></label>
+            <label class="sbx-ctl"><span>Kinetic &mu;<sub>k</sub></span><input class="range" type="range" id="pl-muk" min="0" max="1" step="0.05" value="0.3"><output for="pl-muk" id="pl-muk-out"></output></label>
+          </div>
+          <dl class="sbx-read" id="plane-read"></dl>
+        </figure>
+          <div class="hb-card hb-tracker">
+            <p class="hb-k">Learning outcomes</p>
+            <p class="hb-big" id="progress-count">00 / 00 LOs completed</p>
             <div class="progress-track" role="progressbar" aria-labelledby="progress-count" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
               <span class="progress-fill" id="progress-fill"></span>
             </div>
           </div>
+        <figure class="sbx-fig hb-calc">
+          <figcaption class="sbx-cap"><span>Fig. 2</span> Position, velocity and acceleration</figcaption>
+          <canvas id="calc-canvas" class="sbx-canvas" role="img" aria-label="Graph of x of t equals t cubed minus 6 t squared plus 9 t plus 2, with the tangent at the chosen time"></canvas>
+          <div class="sbx-controls sbx-controls-1">
+            <label class="sbx-ctl"><span>Time t (s)</span><input class="range" type="range" id="calc-t" min="0" max="4.5" step="0.05" value="0.5"><output for="calc-t" id="calc-t-out"></output></label>
+          </div>
+          <dl class="sbx-read" id="calc-read" aria-live="polite"></dl>
+        </figure>
+          <div class="hb-card hb-res">
+            <h2 id="drive-cta-title" class="drive-cta-title font-display">Grade 10 resources on Google Drive</h2>
+            <p class="drive-cta-text">Every note, PDF and worksheet is in the club's shared Drive folder. It opens in a new tab.</p>
+            <a id="drive-cta" class="interactive-hover-btn interactive-hover-btn--solid" href="#" target="_blank" rel="noopener noreferrer">Access Google Drive folder<span class="sr-only"> (opens in a new tab)</span></a>
+            <h2 id="pl-title" class="drive-cta-title font-display">Grade 10 video playlists</h2>
+            <ul id="playlist-list" class="pl-list" aria-labelledby="pl-title"></ul>
+            <a id="pl-all" class="pl-all" href="#" target="_blank" rel="noopener noreferrer">See every playlist on YouTube <svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg><span class="sr-only">(opens in a new tab)</span></a>
+          </div>
         </div>
 
-        <div id="study-panel" role="tabpanel" aria-labelledby="tab-g10">
-          <div id="bento" class="bento" role="list" aria-label="Grade 10 topics"></div>
-
-          <div class="resources">
-            <div class="drive-cta glass">
-              <div>
-                <h2 id="drive-cta-title" class="drive-cta-title font-display">Grade 10 resources on Google Drive</h2>
-                <p class="drive-cta-text">Every note, PDF and worksheet is in the club's shared Drive folder. It opens in a new tab.</p>
-              </div>
-              <a id="drive-cta" class="interactive-hover-btn interactive-hover-btn--solid" href="#" target="_blank" rel="noopener noreferrer">Access Google Drive folder<span class="sr-only"> (opens in a new tab)</span></a>
-            </div>
-
-            <div class="pl-card glass">
-              <h2 id="pl-title" class="drive-cta-title font-display">Grade 10 video playlists</h2>
-              <p class="drive-cta-text">Watch the explanations on YouTube, one playlist per subject.</p>
-              <ul id="playlist-list" class="pl-list" aria-labelledby="pl-title"></ul>
-              <a id="pl-all" class="pl-all" href="#" target="_blank" rel="noopener noreferrer">See every playlist on YouTube <svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg><span class="sr-only">(opens in a new tab)</span></a>
-            </div>
+        <div class="lo-split" id="study-panel" role="tabpanel" aria-labelledby="tab-g10">
+          <div class="lo-pin">
+            <h2 class="lo-grade font-display" id="lo-grade">Grade 10</h2>
+            <p id="study-count" class="result-count" aria-live="polite"></p>
           </div>
+          <div id="bento" class="lo-list" role="list" aria-label="Grade 10 learning outcomes"></div>
         </div>
       </div>
     </section>
@@ -542,12 +447,12 @@
     </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="js/config.js?v=19"></script>
-  <script src="js/study-data.js?v=19"></script>
-  <script src="js/ascii-bg.js?v=19"></script>
-  <script src="js/hero3d.js?v=19"></script>
-  <script src="js/app.js?v=19"></script>
-  <script src="js/showcase.js?v=19"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/config.js?v=21"></script>
+  <script src="js/study-data.js?v=21"></script>
+  <script src="js/app.js?v=21"></script>
+  <script src="js/sandbox.js?v=21"></script>
+  <script src="js/home.js?v=21"></script>
 </body>
 </html>

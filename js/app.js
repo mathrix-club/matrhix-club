@@ -87,7 +87,7 @@
   $$('[data-join]').forEach(function (a) { a.href = CFG.joinUrl; });
 
   var saved = document.documentElement.getAttribute('data-theme');
-  setTheme(THEMES.indexOf(saved) >= 0 ? saved : 'focus', false);
+  setTheme(THEMES.indexOf(saved) >= 0 ? saved : 'light', false);
   $$('[data-brand-attr]').forEach(function (el) {
     var spec = el.getAttribute('data-brand-attr'), i = spec.indexOf(':');
     el.setAttribute(spec.slice(0, i), spec.slice(i + 1).split('{brand}').join(BRAND));
@@ -227,18 +227,22 @@
     return [t.topic, SUBJECT_LABEL[t.subject]].concat(t.items.map(function (d) { return d.title + ' ' + d.summary; })).join(' ');
   }
 
-  /* Progress: completed topics live in localStorage, so they stay on this device only. */
-  var PROGRESS_KEY = 'mathrix-progress-v1';
+  /* Progress: completed learning outcomes live in localStorage, so they stay on this device only. */
+  var PROGRESS_KEY = 'mathrix-lo-v1';
   var done = {};
   try { done = JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; } catch (e) { done = {}; }
   function saveDone() { try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(done)); } catch (e) { /* private mode: progress lasts for this visit */ } }
 
+  // Each folder is one learning outcome, numbered LO1, LO2... in study-data.js order within its grade.
+  function losForGrade(grade) { return DATA.filter(function (d) { return d.grade === grade; }); }
+  function loKey(d) { return 'G' + d.grade + '/' + d.title; }
+
   function renderProgress() {
-    var all = topicsForGrade(state.grade);
-    var n = all.filter(function (t) { return done[topicKey(t)]; }).length;
+    var all = losForGrade(state.grade);
+    var n = all.filter(function (d) { return done[loKey(d)]; }).length;
     var pct = all.length ? Math.round(n / all.length * 100) : 0;
-    $('#progress-count').textContent = pad(n) + ' / ' + pad(all.length) + ' completed';
-    $('.progress-track').setAttribute('aria-valuetext', n + ' of ' + all.length + ' Grade ' + state.grade + ' topics completed');
+    $('#progress-count').textContent = pad(n) + ' / ' + pad(all.length) + ' LOs completed';
+    $('.progress-track').setAttribute('aria-valuetext', n + ' of ' + all.length + ' Grade ' + state.grade + ' learning outcomes completed');
     $('#progress-fill').style.transform = 'scaleX(' + pct / 100 + ')';
     $('.progress-track').setAttribute('aria-valuenow', String(pct));
   }
@@ -318,58 +322,37 @@
       icon('check', 'icon-sm') + '<span>' + (on ? 'Completed' : 'Mark complete') + '</span></button>';
   }
 
-  /* A folder card: two glass sheets behind, a tab on top, the diagram, then number, topic and contents. */
-  function card(t, span, i) {
-    var key = topicKey(t), n = t.items.length, pls = playlistsFor(t).length;
-    var res = ['notes', 'pdf', 'worksheet'].map(function (k) {
-      return '<span><b>' + pad(resCount(t, k)) + '</b> ' + RES[k].label + '</span>';
-    }).join('');
-    var shown = t.items.slice(0, span >= 4 ? 3 : 2);
-    return '<article class="bento-card' + (span >= 4 ? ' is-wide' : '') + (done[key] ? ' is-done' : '') + '" role="listitem" data-subject="' + t.subject + '" data-key="' + esc(key) + '" style="--span:' + span + '">' +
-      '<span class="bento-face" aria-hidden="true"></span>' +
-      '<span class="bento-tab" aria-hidden="true"><b>' + pad(i + 1) + '</b> ' + esc(SUBJECT_LABEL[t.subject]) + '</span>' +
-      '<div class="bento-media" aria-hidden="true">' +
-        fxFor(t) +
-        '<span class="bento-launch">Launch workbench <span class="bento-arrow">\u2192</span></span>' +
-      '</div>' +
-      '<div class="bento-body">' +
-        '<p class="bento-tele"><span>' + pad(i + 1) + ' // ' + esc(t.topic.toUpperCase()) + '</span>' +
-          '<span>G' + t.grade + '</span>' +
-          '<span><b>' + pad(n) + '</b> ' + (n === 1 ? 'folder' : 'folders') + '</span>' +
-          '<span><b>' + pad(pls) + '</b> ' + (pls === 1 ? 'playlist' : 'playlists') + '</span></p>' +
-        '<h3 class="bento-title font-display"><button type="button" class="bento-open" data-open="' + esc(key) + '" aria-haspopup="dialog">' +
-          esc(t.topic) + '</button></h3>' +
-        '<ul class="bento-items">' + shown.map(function (d) { return '<li>' + esc(d.title) + '</li>'; }).join('') +
-          (n > shown.length ? '<li class="bento-more">+' + (n - shown.length) + ' more</li>' : '') + '</ul>' +
-        '<div class="bento-foot"><p class="bento-res">' + res + '</p>' + doneButton(key) + '</div>' +
-      '</div>' +
-    '</article>';
+  /* One row per learning outcome: its number, topic, summary, exact Drive link, workbench and completion. */
+  function loRow(d, n) {
+    var key = loKey(d);
+    return '<article class="lo-row' + (done[key] ? ' is-done' : '') + '" role="listitem" data-subject="' + d.subject + '">' +
+      '<p class="lo-tag"><b>LO' + n + '</b> ' + esc(d.topic) + ' / ' + esc(SUBJECT_LABEL[d.subject]) + '</p>' +
+      '<h3 class="lo-title font-display">' + esc(d.title) + '</h3>' +
+      '<p class="lo-text">' + esc(d.summary) + '</p>' +
+      '<div class="lo-actions">' +
+        '<a class="interactive-hover-btn" href="' + esc(d.drive || CFG.driveRoot) + '" target="_blank" rel="noopener noreferrer">Open on Drive' + SR_NEW_TAB + '</a>' +
+        '<button type="button" class="interactive-hover-btn interactive-hover-btn--ghost" data-open="' + esc(topicKey(d)) + '" aria-haspopup="dialog">Workbench</button>' +
+        doneButton(key) +
+      '</div></article>';
   }
 
   function renderBento() {
-    var list = topicsForGrade(state.grade).filter(function (t) {
-      return (state.subject === 'all' || state.subject === t.subject) && matches(topicText(t));
+    var all = losForGrade(state.grade);
+    var list = all.filter(function (d) {
+      return (state.subject === 'all' || state.subject === d.subject) &&
+        matches(d.title + ' ' + d.summary + ' ' + d.topic + ' ' + SUBJECT_LABEL[d.subject]);
     });
-    bentoEl.setAttribute('aria-label', 'Grade ' + state.grade + ' topics');
-    var folders = 0, subs = [];
-    list.forEach(function (t) { folders += t.items.length; if (subs.indexOf(t.subject) < 0) subs.push(t.subject); });
-    var pls = PLAYLISTS.filter(function (p) { return p.grade === state.grade && subs.indexOf(p.subject) >= 0; }).length;
-    countEl.textContent = list.length + (list.length === 1 ? ' topic, ' : ' topics, ') +
-      folders + (folders === 1 ? ' concept folder' : ' concept folders') + ' and ' + pls + (pls === 1 ? ' playlist' : ' playlists') + ' in Grade ' + state.grade;
+    bentoEl.setAttribute('aria-label', 'Grade ' + state.grade + ' learning outcomes');
+    $('#lo-grade').textContent = 'Grade ' + state.grade;
+    countEl.textContent = list.length === all.length ? all.length + ' learning outcomes' : list.length + ' of ' + all.length + ' learning outcomes';
 
     if (!list.length) {
       bentoEl.innerHTML = '<div class="empty glass" role="listitem">' +
-        '<p class="font-display empty-title">No topic matches that search</p>' +
-        '<p>Try a shorter word, or clear the search to see every Grade ' + state.grade + ' topic.</p>' +
+        '<p class="font-display empty-title">No learning outcome matches that search</p>' +
+        '<p>Try a shorter word, or clear the search to see every Grade ' + state.grade + ' LO.</p>' +
         '<button type="button" class="interactive-hover-btn" data-clear>Clear search</button></div>';
     } else {
-      if (cardObserver) cardObserver.disconnect();   // the old cards are about to be replaced
-      var sp = spans(list.length);
-      bentoEl.innerHTML = list.map(function (t, i) { return card(t, sp[i], i); }).join('');
-      $$('.bento-card', bentoEl).forEach(function (c) {
-        setLive(c, false);
-        if (cardObserver) cardObserver.observe(c);
-      });
+      bentoEl.innerHTML = list.map(function (d) { return loRow(d, all.indexOf(d) + 1); }).join('');
     }
     renderProgress();
   }
@@ -441,7 +424,7 @@
       var on = !!done[key];
       tog.setAttribute('aria-pressed', String(on));
       tog.classList.toggle('is-done', on);
-      tog.closest('.bento-card').classList.toggle('is-done', on);
+      tog.closest('.lo-row').classList.toggle('is-done', on);
       $('span', tog).textContent = on ? 'Completed' : 'Mark complete';
       renderProgress();
       return;
